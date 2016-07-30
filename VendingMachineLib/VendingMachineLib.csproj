@@ -33,6 +33,8 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Exceptions\VendingMachineException.cs" />
+    <Compile Include="Utils\VMErrorStatesUtils.cs" />
+    <Compile Include="VendingMachine.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utils\" />
