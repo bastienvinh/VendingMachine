@@ -5,6 +5,9 @@ namespace com.bvinh.vendingmachine
 
 	// This class represent a vending machine
 
+	/// <summary>
+	/// This a implementation of old vending machine model.
+	/// </summary>
 	public class VendingMachine
 	{
 

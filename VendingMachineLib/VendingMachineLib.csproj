@@ -35,10 +35,16 @@
     <Compile Include="Exceptions\VendingMachineException.cs" />
     <Compile Include="Utils\VMErrorStatesUtils.cs" />
     <Compile Include="VendingMachine.cs" />
+    <Compile Include="Products\Product.cs" />
+    <Compile Include="Products\TypeOfProduct.cs" />
+    <Compile Include="IVendingMachine.cs" />
+    <Compile Include="Stocks\IStorageVMProduct.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utils\" />
     <Folder Include="Exceptions\" />
+    <Folder Include="Products\" />
+    <Folder Include="Stocks\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
