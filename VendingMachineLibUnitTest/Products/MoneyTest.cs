@@ -40,9 +40,17 @@ namespace VendingMachineLibUnitTest
 			Assert.IsFalse(res.HasValue);
 		}
 
+		[Description("Test about trying to get money with negative value, that's impossible in real-world")]
+		[Test]
 		public void TestMoneyMustBePositive()
 		{
-			var res = Money.GetMoneyByValue(-2);
+
+			// "You can have money value inferior to 0"
+			Assert.Throws<MoneyException>(() =>
+			{
+				Money.GetMoneyByValue(-2);
+			}, "You can have money value inferior to 0");
+
 		}
 
 	}

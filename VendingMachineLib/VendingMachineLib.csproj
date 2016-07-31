@@ -44,6 +44,7 @@
     <Compile Include="Stocks\IStorageVMProduct.cs" />
     <Compile Include="Products\Money.cs" />
     <Compile Include="Exceptions\MoneyException.cs" />
+    <Compile Include="Utils\VMResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utils\" />

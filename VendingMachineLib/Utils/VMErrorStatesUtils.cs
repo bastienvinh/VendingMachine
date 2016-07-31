@@ -1,5 +1,5 @@
 ﻿using System;
-namespace com.bvinh.vendingmachine.utils
+namespace Com.Bvinh.Vendingmachine.Utils
 {
 
 
@@ -14,14 +14,16 @@ namespace com.bvinh.vendingmachine.utils
 	// NOT_ENOUGH_MONEY_FROM_CUSTOMER : The client doesn't have enough money to pay the vending machine
 	// CANCELED_BY_CUSTOMER						: The client has canceled a product
 
-	public enum ErrorCode
+	public enum VMErrorCode
 	{
+		NONE = 0,
 		STOPPED = 1,
 		NO_ENOUGH_MONEY = 2,
 		NO_MORE_DRINKS = 3,
 		RESERVE_NOT_AVAILABLE = 4,
 		NOT_ENOUGH_MONEY_FROM_CUSTOMER = 5,
-		CANCELED_BY_CUSTOMER = 6
+		CANCELED_BY_CUSTOMER = 6,
+		UNKNOWN_ERROR = 777
 	}
 
 	// We will use this class on the purpose to help more easily to retrieve the good errors

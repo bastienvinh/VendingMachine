@@ -61,6 +61,11 @@ namespace Com.Bvinh.Vendingmachine
 
 		public static Maybe<Money> GetMoneyByValue(double value)
 		{
+
+			// Money is always positive
+			if (value < 0)
+				throw new MoneyException("You can have money value inferior to 0");
+
 			var searchElement = typeof(Money).GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.Static)
 															.FirstOrDefault(f => f.FieldType == typeof(Money)
 																							&& ((Money)f.GetValue(null)).Value == value);
