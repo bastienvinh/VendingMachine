@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Products\" />
+    <Folder Include="Utils\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Products\MoneyTest.cs" />

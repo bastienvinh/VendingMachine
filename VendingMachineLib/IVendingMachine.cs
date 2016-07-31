@@ -20,6 +20,7 @@ namespace Com.Bvinh.Vendingmachine
 	  double MaxMoney { get; set; } 
 		int NumberMaxProducts { get; }
 		int NumberOfProductsLeft { get; }
+		bool HaveProducts { get; }
 
 		double GetTotalMoneyClient();
 		double GetTotalMoneyMachine();

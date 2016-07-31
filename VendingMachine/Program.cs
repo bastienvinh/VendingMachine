@@ -6,17 +6,14 @@ namespace Com.Bvinh.Test.Vending
 {
 	class MainClass
 	{
+
+		// This space is used to test directly some function manually.
+
 		public static void Main(string[] args)
 		{
-			var possibleMaybeMoney = Money.GetMoneyByValue(2);
-			if (possibleMaybeMoney.HasValue)
-			{
-				Console.WriteLine("Current Money retrieve : {0}", possibleMaybeMoney.Value.Name);
-			}
-			else
-			{
-				Console.WriteLine("No money at all");
-			}
+			string test = SomeUtilsMethods.CreateCreateStringFromDate();
+			Console.WriteLine("Result : {0}", test);
+
 
 			Console.WriteLine("\n\nEnd of Program guys ...............................");
 		}
