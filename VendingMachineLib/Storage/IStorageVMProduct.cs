@@ -19,8 +19,8 @@ namespace Com.Bvinh.Vendingmachine
 	public interface IStorageVMProducts
 	{
 
-		int IdStorage { get; set; }
-		int MaxCapacity { get; set; }
+		string IdStorage { get; }
+		int MaxCapacity { get; }
 		int CurrentCapacity { get; }
 
 		void SetCapacity(int number);

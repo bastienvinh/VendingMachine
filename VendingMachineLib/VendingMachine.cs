@@ -27,6 +27,8 @@ namespace Com.Bvinh.Vendingmachine
 
 		private Dictionary<string, T> _storageProducts; 
 
+		// TODO : implements max capacity for each storage (IMPORTANTS)
+
 		#endregion
 
 
@@ -194,7 +196,7 @@ namespace Com.Bvinh.Vendingmachine
 			// We need a new key to rerieve our element on the dictionnary
 			string newIndexStorage = SomeUtilsMethods.CreateCreateStringFromDate();
 
-
+			// TODO : Continue this methods
 
 			return Maybe<T>.Nothing;
 		}
