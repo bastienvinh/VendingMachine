@@ -1,6 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+
+
 namespace Com.Bvinh.Vendingmachine
 {
+
+	// That will help us to understand the definition of the program
+	// Up to you use or not
+	using SeveralMoney = Tuple<int, Money>;
+	using RestOfMoney = List<Tuple<int, Money>>;
+
+
 	/// <summary>
 	/// Vending machine rules, this is what we expect from vending machine
 	/// </summary>
@@ -25,8 +35,11 @@ namespace Com.Bvinh.Vendingmachine
 		void GiveBackClientMoney();
 
 		int GetNumberOfProductFromStorage(int idStorage);
-		//void SetMaMoney(double maxMoney);
-		//double GetMaxMoney();
+
+
+		void ClientPutMoney(Money m);
+		RestOfMoney GetMoneyBackFromVM();
+
 	}
 }
 

@@ -16,6 +16,8 @@ namespace Com.Bvinh.Vendingmachine
 	// The type of money never change once every 10 years or more.
 	// For decade we use 1,2,5, 10, ... os if you had any value you can here your value.
 
+	// For now I tale in account the currency since a vending machine doesn't manage multiple currencies
+
 
 	public sealed class Money
 	{

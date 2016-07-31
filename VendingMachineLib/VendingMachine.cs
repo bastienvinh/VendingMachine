@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace Com.Bvinh.Vendingmachine
 {
+
+	using SeveralMoney = Tuple<int, Money>;
+	using RestOfMoney = List<Tuple<int, Money>>;
 
 
 	// This class represent a vending machine
@@ -112,6 +117,16 @@ namespace Com.Bvinh.Vendingmachine
 		}
 
 		public void ResetMoneyClientHasSpent()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void ClientPutMoney(Money m)
+		{
+			throw new NotImplementedException();
+		}
+
+		public RestOfMoney GetMoneyBackFromVM()
 		{
 			throw new NotImplementedException();
 		}

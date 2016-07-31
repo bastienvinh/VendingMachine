@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VendingMachine", "VendingMa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VendingMachineLib", "VendingMachineLib\VendingMachineLib.csproj", "{87E72426-8313-48BB-AED5-D29417BC6D22}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VendingMachineLibUnitTest", "VendingMachineLibUnitTest\VendingMachineLibUnitTest.csproj", "{24491B04-8FA4-431B-9DAB-64C86467A688}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -19,5 +21,9 @@ Global
 		{87E72426-8313-48BB-AED5-D29417BC6D22}.Debug|x86.Build.0 = Debug|Any CPU
 		{87E72426-8313-48BB-AED5-D29417BC6D22}.Release|x86.ActiveCfg = Release|Any CPU
 		{87E72426-8313-48BB-AED5-D29417BC6D22}.Release|x86.Build.0 = Release|Any CPU
+		{24491B04-8FA4-431B-9DAB-64C86467A688}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{24491B04-8FA4-431B-9DAB-64C86467A688}.Debug|x86.Build.0 = Debug|Any CPU
+		{24491B04-8FA4-431B-9DAB-64C86467A688}.Release|x86.ActiveCfg = Release|Any CPU
+		{24491B04-8FA4-431B-9DAB-64C86467A688}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
