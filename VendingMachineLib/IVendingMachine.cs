@@ -1,5 +1,5 @@
 ﻿using System;
-namespace com.bvinh.vendingmachine
+namespace Com.Bvinh.Vendingmachine
 {
 	/// <summary>
 	/// Vending machine rules, this is what we expect from vending machine

@@ -1,5 +1,5 @@
 ﻿using System;
-namespace com.bvinh.vendingmachine
+namespace Com.Bvinh.Vendingmachine
 {
 
 	// For now, there are two type of products drink and softdrinks. We use drink for or example

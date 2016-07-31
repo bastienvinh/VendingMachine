@@ -1,5 +1,5 @@
 ﻿using System;
-namespace com.bvinh.vendingmachine
+namespace Com.Bvinh.Vendingmachine
 {
 
 	// This is the basic exception for our vending machine

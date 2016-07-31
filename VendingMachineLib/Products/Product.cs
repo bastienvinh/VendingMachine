@@ -1,5 +1,5 @@
 ﻿using System;
-namespace com.bvinh.vendingmachine
+namespace Com.Bvinh.Vendingmachine
 {
 	public class Product
 	{

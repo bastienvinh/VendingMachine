@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace com.bvinh.vendingmachine
+namespace Com.Bvinh.Vendingmachine
 {
 
 	// We add an interface to store storage type of Products

@@ -5,9 +5,9 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{87E72426-8313-48BB-AED5-D29417BC6D22}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>com.bvinh.vendingmachine</RootNamespace>
+    <RootNamespace>Com.Bvinh.Vendingmachine</RootNamespace>
     <AssemblyName>VendingMachineLib</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <Description>This a library about a vending machine.</Description>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -29,6 +29,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="Functional.Maybe">
+      <HintPath>..\packages\Functional.Maybe.1.0.8\lib\portable-net40+win+MonoAndroid10+xamarinios10+MonoTouch10\Functional.Maybe.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -39,12 +42,16 @@
     <Compile Include="Products\TypeOfProduct.cs" />
     <Compile Include="IVendingMachine.cs" />
     <Compile Include="Stocks\IStorageVMProduct.cs" />
+    <Compile Include="Products\Money.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utils\" />
     <Folder Include="Exceptions\" />
     <Folder Include="Products\" />
     <Folder Include="Stocks\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
