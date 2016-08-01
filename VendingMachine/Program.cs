@@ -11,8 +11,13 @@ namespace Com.Bvinh.Test.Vending
 
 		public static void Main(string[] args)
 		{
-			string test = SomeUtilsMethods.CreateCreateStringFromDate();
-			Console.WriteLine("Result : {0}", test);
+			// We declare our Vending machine first
+			var vendingMachine = new VendingMachine<OldFashionStorageVM>(5);
+			vendingMachine.NumberMaxProductsByStorage = 10;
+
+			// Each machine has a combinaison
+			var test = vendingMachine.CreateNewStorage("C1");
+			test.GetHashCode();
 
 
 			Console.WriteLine("\n\nEnd of Program guys ...............................");

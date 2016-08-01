@@ -49,6 +49,8 @@
     <Compile Include="Storage\OldFashionStorageVM.cs" />
     <Compile Include="Exceptions\StorageException.cs" />
     <Compile Include="Utils\XEnumerable.cs" />
+    <Compile Include="Exceptions\ProductException.cs" />
+    <Compile Include="Products\DrinksProduct.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utils\" />

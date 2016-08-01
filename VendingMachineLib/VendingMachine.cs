@@ -23,9 +23,16 @@ namespace Com.Bvinh.Vendingmachine
 		#region Attributes
 
 		private int _numberOfReserve;
-		private int _numberOfProducts;
 
-		private Dictionary<string, T> _storageProducts; 
+		// Products
+		private int _numberOfProducts;
+		private int _numberMaxProducts;
+		private int _numberMaxProductsByStorage;
+
+		private Dictionary<string, T> _storageProducts;
+
+		// Money
+		private double _maxMoney;
 
 		// TODO : implements max capacity for each storage (IMPORTANTS)
 
@@ -43,32 +50,18 @@ namespace Com.Bvinh.Vendingmachine
 			get { return _numberOfReserve; }
 		}
 
-		#endregion
-
-		#region Constructor
-
-		public VendingMachine(int numberOfReserve)
+		public int NumberMaxProductsByStorage
 		{
-			_numberOfReserve = numberOfReserve;
+			get { return _numberMaxProductsByStorage; }
+			set 
+			{
+				if (value <= 0)
+					throw VMExceptionUtils.CanHaveZeroOrLowerAsStorageMaxCapacity();
+
+				_numberMaxProductsByStorage = value; 
+			}
 		}
 
-		#endregion
-
-		#region Initialization
-
-		private void Initialization()
-		{
-			_numberOfProducts = 0;
-			_numberOfReserve = 0;
-			_storageProducts = new Dictionary<string, T>();
-
-
-		}
-
-		#endregion
-
-
-		#region Properties
 
 		/// <summary>
 		/// Tell if you have still more empty storage
@@ -81,26 +74,60 @@ namespace Com.Bvinh.Vendingmachine
 
 		#endregion
 
+		#region Constructor
+
+		public VendingMachine(int numberOfReserve)
+		{
+			Initialization();
+			_numberOfReserve = numberOfReserve;
+		}
+
+		#endregion
+
+		#region Initialization
+
+		private void Initialization()
+		{
+			_numberOfProducts = 0;
+			_numberOfReserve = 0;
+			_numberOfProducts = 0;
+			_storageProducts = new Dictionary<string, T>();
+
+			_maxMoney = int.MaxValue; // max double will be humanly impossible.
+		}
+
+		#endregion
+
 		#region Implements IVendingMachine
 
 		public double MaxMoney
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return _maxMoney;
 			}
 
 			set
 			{
-				throw new NotImplementedException();
+				if (value <= 0)
+					throw VMExceptionUtils.MaxMoneyCantBeNegative();
+
+				if (value < GetCurrentClientMoney())
+					throw VMExceptionUtils.MaxMoneyCantBeInfToCurrentMoney();
+
+				_maxMoney = value;
 			}
 		}
 
+		/// <summary>
+		/// Number max of Products you can add in this Vending Machine
+		/// </summary>
+		/// <value>The number max products.</value>
 		public int NumberMaxProducts
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return _numberOfProducts;
 			}
 		}
 
@@ -108,6 +135,7 @@ namespace Com.Bvinh.Vendingmachine
 		{
 			get
 			{
+				// TODO : continue this function
 				return _numberOfProducts;
 			}
 		}
@@ -121,9 +149,19 @@ namespace Com.Bvinh.Vendingmachine
 			get { return _numberOfProducts > 0; }
 		}
 
+
+		/// <summary>
+		/// Add a product to a specific storage. You must had a storage first.
+		/// </summary>
+		/// <returns>The product.</returns>
+		/// <param name="product">Product.</param>
+		/// <param name="IdStorage">Identifier storage.</param>
 		public bool AddProduct(Product product, int IdStorage)
 		{
-			throw new NotImplementedException();
+			
+
+			// throw new NotImplementedException();
+			return false;
 		}
 
 		public double GetCurrentClientMoney()
@@ -180,6 +218,43 @@ namespace Com.Bvinh.Vendingmachine
 
 		#region Storage
 
+
+		/// <summary>
+		/// Check if a container ID already exists
+		/// </summary>
+		/// <returns>The AS torage identifier already exists.</returns>
+		/// <param name="id">Identifier.</param>
+		public bool IsAStorageIdAlreadyExists(string id) => _storageProducts.ContainsKey(id);
+
+
+		/// <summary>
+		/// Create new Storage if there still place.
+		/// Exception : VMExceptionUtils => no more storage available.
+		/// </summary>
+		/// <returns>The new storage of type T</returns>
+		/// <param name="id">Identifier of the new Storage</param>
+		public T CreateNewStorage(string id)
+		{
+			if (!HasEmptyStorage)
+				throw VMExceptionUtils.NoMoreReserve();
+
+			if (_numberMaxProductsByStorage <= 0)
+				throw VMExceptionUtils.CanHaveZeroOrLowerAsStorageMaxCapacity();
+
+			if (IsAStorageIdAlreadyExists(id))
+				throw VMExceptionUtils.StorageAlreadyExists();
+
+			// TODO : very bad, i suggest something that shouldn't exists. improve better this case. I think you should create Fabric Pattern. Because it's impossible to have two args.
+			// Bastien : sorry
+			var storage = Activator.CreateInstance(typeof(T), new object[] { id, _numberMaxProductsByStorage });
+
+			// We add our new storage in our self container
+			var res = (T)storage;
+			_storageProducts.Add(id, res);
+
+			return res;
+		}
+
 		/// <summary>
 		/// We get an empty storage for the person that to fill the VM
 		/// This will create too an empty place into the intern storage products
@@ -195,9 +270,8 @@ namespace Com.Bvinh.Vendingmachine
 			// We need a new key to rerieve our element on the dictionnary
 			string newIndexStorage = SomeUtilsMethods.CreateCreateStringFromDate();
 
-			// TODO : Continue this methods
-
-			return Maybe<T>.Nothing;
+			var newStorage = CreateNewStorage(newIndexStorage);
+			return newStorage.ToMaybe();
 		}
 
 		/// <summary>
