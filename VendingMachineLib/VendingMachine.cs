@@ -31,7 +31,6 @@ namespace Com.Bvinh.Vendingmachine
 
 		#endregion
 
-
 		#region Properties
 
 

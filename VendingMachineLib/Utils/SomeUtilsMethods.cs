@@ -13,6 +13,10 @@ namespace Com.Bvinh.Vendingmachine
 
 			return DateTime.Now.ToString("yyyyMMddHHmmss");
 		}
+
+
+		public static string CreateUniqueIdentifier() => Guid.NewGuid().ToString().Replace('-', '\0');
+
 	}
 }
 

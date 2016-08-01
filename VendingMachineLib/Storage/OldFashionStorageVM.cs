@@ -24,17 +24,40 @@ namespace Com.Bvinh.Vendingmachine
 		private int _capacityMax;
 		private int _numberProductsOnStorage;
 		private string _idStorage;
+		private double _price;
+		#endregion
+
+
+		#region Properties
+
+		public double Price
+		{
+			get { return _price; }
+			set 
+			{
+				if (value < 0)
+					throw new StorageException("The price can't be negative");
+
+				_price = value;
+			}
+		}
+
 		#endregion
 
 		#region Constructor
 		public OldFashionStorageVM(int maxCapacity)
 		{
 			Initialisation();
+			SetCapacity(maxCapacity);
 		}
 
 		public OldFashionStorageVM(string id, int maxCapacity)
 			: this(maxCapacity)
 		{
+
+			if (string.IsNullOrEmpty(id) || string.IsNullOrWhiteSpace(id))
+				throw new StorageException("IdStorage can't be null, empty or with whitespace.");
+
 			_idStorage = id;
 		}
 		#endregion
@@ -149,7 +172,8 @@ namespace Com.Bvinh.Vendingmachine
 		{
 			_capacityMax = 0;
 			_numberProductsOnStorage = 0;
-			_idStorage = string.Empty;
+			_idStorage = SomeUtilsMethods.CreateUniqueIdentifier();
+			_price = 0;
 		}
 
 		#endregion
