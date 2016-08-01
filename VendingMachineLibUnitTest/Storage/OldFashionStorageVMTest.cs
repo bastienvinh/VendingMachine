@@ -1,7 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using NUnit;
 using Com.Bvinh.Vendingmachine;
+using Com.Bvinh.Vendingmachine.Utils;
+using Moq;
+using Moq.Protected;
+using Moq.Language;
 
 namespace VendingMachineLibUnitTest
 {
@@ -15,21 +21,21 @@ namespace VendingMachineLibUnitTest
 		[Test]
 		public void IsOldFashionStorageVMCanSetToEmptyOrBelow()
 		{
-			string errorMessage = "Your storage must have a capacity > 0.";
-			Assert.Throws<StorageException>(() => { new OldFashionStorageVM(0); }, errorMessage);
-			Assert.Throws<StorageException>(() => { new OldFashionStorageVM(-3); }, errorMessage);
+			const string LOCAL_CONST_ERROR_MESSAGE = "Your storage must have a capacity > 0.";
+			Assert.Throws<StorageException>(() => { new OldFashionStorageVM(0); }, LOCAL_CONST_ERROR_MESSAGE);
+			Assert.Throws<StorageException>(() => { new OldFashionStorageVM(-3); }, LOCAL_CONST_ERROR_MESSAGE);
 
 			// Test -3
 			Assert.Throws<StorageException>(() =>
 			{
 				(new OldFashionStorageVM(3)).SetCapacity(-3);
-			}, errorMessage);
+			}, LOCAL_CONST_ERROR_MESSAGE);
 
 			// Test 0
 			Assert.Throws<StorageException>(() =>
 			{
 				(new OldFashionStorageVM(3)).SetCapacity(0);
-			}, errorMessage);
+			}, LOCAL_CONST_ERROR_MESSAGE);
 		}
 
 
@@ -43,7 +49,7 @@ namespace VendingMachineLibUnitTest
 			const double LOCAL_CONST_FREE_PRICE_TEST = 0;
 			const string MESSAGE_ERROR_ABOUT_CORRUPTED_PRICE = "The price can't be negative";
 
-			OldFashionStorageVM aStorageForVM = new OldFashionStorageVM(10);
+			var aStorageForVM = new OldFashionStorageVM(10);
 
 			Assert.AreEqual(aStorageForVM.Price, LOCAL_CONST_FREE_PRICE_TEST); // Always free or equal to zero at start
 
@@ -74,7 +80,7 @@ namespace VendingMachineLibUnitTest
 			const string LOCAL_CONST_BAD__ID_STORAGE_TEST_WHITESPACE = "       ";
 			const string LOCAL_CONST_GOOD_ID_STORAGE = "GoodMornding";
 
-			OldFashionStorageVM aStorageFromVM = new OldFashionStorageVM(CLASS_VAR_A_GOOD_CAPACITY_NUMBER);
+			var aStorageFromVM = new OldFashionStorageVM(CLASS_VAR_A_GOOD_CAPACITY_NUMBER);
 			Assert.IsNotNull(aStorageFromVM.IdStorage);
 			Assert.IsNotEmpty(aStorageFromVM.IdStorage);
 
@@ -98,6 +104,65 @@ namespace VendingMachineLibUnitTest
 				new OldFashionStorageVM(LOCAL_CONST_BAD__ID_STORAGE_TEST_WHITESPACE, CLASS_VAR_A_GOOD_CAPACITY_NUMBER);
 			}, LOCAL_ERROR_MESSAGE_ON_BAD_ID);
 
+		}
+
+		[Description("We verify that the current capcity is correct. " +
+		             "So we simulate that that we can add and see the amount is correct.")]
+		[Test]
+		public void TestTheCurrentCapacityIsCorrect()
+		{
+			// TODO : In this case we should use a mock because for the test CurrentCapcity is dependant of add / clear / remove
+
+			// Test when we add
+
+			var aStorageVM = new OldFashionStorageVM(CLASS_VAR_A_GOOD_CAPACITY_NUMBER);
+
+			Assert.IsTrue(aStorageVM.CurrentCapacity >= 0);
+
+			aStorageVM.AddOneProduct();
+			aStorageVM.AddOneProduct();
+			aStorageVM.AddOneProduct();
+			aStorageVM.AddOneProduct();
+
+			Assert.AreEqual(aStorageVM.CurrentCapacity, (CLASS_VAR_A_GOOD_CAPACITY_NUMBER - 4));
+
+			// Test when we remove
+
+			aStorageVM.RemoveOneProduct();
+			aStorageVM.RemoveOneProduct();
+
+			Assert.AreEqual(aStorageVM.CurrentCapacity, (CLASS_VAR_A_GOOD_CAPACITY_NUMBER - 2));
+
+			// Test when storage is empty
+
+			aStorageVM.RemoveOneProduct();
+			aStorageVM.RemoveOneProduct();
+			aStorageVM.RemoveOneProduct();
+			aStorageVM.RemoveOneProduct();
+			aStorageVM.RemoveOneProduct();
+			aStorageVM.RemoveOneProduct();
+
+			Assert.AreEqual(aStorageVM.CurrentCapacity, aStorageVM.MaxCapacity);
+		}
+
+
+		[Description("When we add a product we can't go further than the maxhimun capacity. A storage is always limited." +
+		             "This is not Futurama.")]
+								
+		[Test]
+		public void TestAddCantGoFurtherThanMaxCapacity()
+		{
+			const int LOCAL_CONST_LIMIT_TEST = 10;
+			const string LOCAL_CONST_ERROR_MESSAGE_OVERCAPACITY_OF_STORAGE = "You can't add more on this storage.";
+
+			var aStorageVM = new OldFashionStorageVM(LOCAL_CONST_LIMIT_TEST);
+
+			Assert.Throws<StorageException>(() =>
+			{
+				// We add 12 times a product to the storage to add more products than the capacity
+				Enumerable.Range(0, LOCAL_CONST_LIMIT_TEST + 2).ForEach((x) => aStorageVM.AddOneProduct());
+
+			}, LOCAL_CONST_ERROR_MESSAGE_OVERCAPACITY_OF_STORAGE);
 
 		}
 
