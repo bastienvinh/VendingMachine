@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Functional.Maybe;
 using Com.Bvinh.Vendingmachine.Utils;
 
@@ -26,7 +27,6 @@ namespace Com.Bvinh.Vendingmachine
 
 		// Products
 		private int _numberOfProducts;
-		private int _numberMaxProducts;
 		private int _numberMaxProductsByStorage;
 
 		private Dictionary<string, T> _storageProducts;
@@ -151,25 +151,96 @@ namespace Com.Bvinh.Vendingmachine
 
 
 		/// <summary>
-		/// Add a product to a specific storage. You must had a storage first.
+		/// Add a product to a specific storage. 
+		/// WARNING : You must had a storage first.
 		/// </summary>
-		/// <returns>The product.</returns>
-		/// <param name="product">Product.</param>
-		/// <param name="IdStorage">Identifier storage.</param>
-		public bool AddProduct(Product product, int IdStorage)
+		/// <returns>Operation did or not</returns>
+		/// <param name="idStorage">Identifier for the storage</param>
+		/// <param name="product">Optional : a product</param>
+		public bool AddProduct(string idStorage, Product product = null)
 		{
-			
+			if (!IsAStorageIdAlreadyExists(idStorage))
+				throw VMExceptionUtils.StorageDoesntExists();
 
-			// throw new NotImplementedException();
-			return false;
+			if (_storageProducts[idStorage].IsFull)
+				throw VMExceptionUtils.StorageIsFull();
+
+			_storageProducts[idStorage].AddOneProduct();
+			_numberOfProducts++;
+
+			return true;
 		}
 
-		public double GetCurrentClientMoney()
+
+		/// <summary>
+		/// Removes all products in every storage in he Vending Machine
+		/// </summary>
+		/// <returns>The all products.</returns>
+		public void RemoveAllProducts()
+		{
+			_storageProducts.Values.ForEach((storage) => { storage.ClearProducts(); });
+			_numberOfProducts = 0;
+		}
+		
+
+		/// <summary>
+		/// Remove a product on a specific storage.
+		/// Exception ; Storage doesn't exist
+		/// </summary>
+		/// <returns>Return states operation true or false</returns>
+		/// <param name="idStorage">Identifier storage.</param>
+		/// <param name="product">Product.</param>
+		public bool RemoveProduct(string idStorage, Product product = null)
+		{
+			if (!IsAStorageIdAlreadyExists(idStorage))
+				throw VMExceptionUtils.StorageDoesntExists();
+
+			_storageProducts[idStorage].RemoveOneProduct();
+			_numberOfProducts--;
+
+			return true;
+		}
+
+
+		/// <summary>
+		/// Give the number of product available in a storage
+		/// </summary>
+		/// <returns>The number of product from storage.</returns>
+		/// <param name="idStorage">Identifier storage.</param>
+		public int GetNumberOfProductFromStorage(string idStorage)
+		{
+			if (!IsAStorageIdAlreadyExists(idStorage))
+				throw VMExceptionUtils.StorageDoesntExists();
+
+			return _storageProducts[idStorage].CurrentCapacity;
+		}
+
+		/// <summary>
+		/// Get the list of all Id Storages available
+		/// </summary>
+		/// <returns>The storages identifiers.</returns>
+		public IEnumerable<string> GetStoragesIds() => _storageProducts.Select(s => s.Value.IdStorage).ToList();
+
+
+
+
+		public void ResetMoneyClientHasSpent()
 		{
 			throw new NotImplementedException();
 		}
 
-		public int GetNumberOfProductFromStorage(int idStorage)
+		public void ClientPutMoney(Money m)
+		{
+			throw new NotImplementedException();
+		}
+
+		public RestOfMoney GetMoneyBackFromVM()
+		{
+			throw new NotImplementedException();
+		}
+
+
+		public double GetCurrentClientMoney()
 		{
 			throw new NotImplementedException();
 		}
@@ -189,30 +260,7 @@ namespace Com.Bvinh.Vendingmachine
 			throw new NotImplementedException();
 		}
 
-		public double RemoveAllProducts()
-		{
-			throw new NotImplementedException();
-		}
 
-		public bool RemoveProduct(Product product, int IdStorage)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void ResetMoneyClientHasSpent()
-		{
-			throw new NotImplementedException();
-		}
-
-		public void ClientPutMoney(Money m)
-		{
-			throw new NotImplementedException();
-		}
-
-		public RestOfMoney GetMoneyBackFromVM()
-		{
-			throw new NotImplementedException();
-		}
 
 		#endregion
 
@@ -244,7 +292,7 @@ namespace Com.Bvinh.Vendingmachine
 			if (IsAStorageIdAlreadyExists(id))
 				throw VMExceptionUtils.StorageAlreadyExists();
 
-			// TODO : very bad, i suggest something that shouldn't exists. improve better this case. I think you should create Fabric Pattern. Because it's impossible to have two args.
+			// TODO : very bad, I suggest something that shouldn't exists. improve better this case. I think you should create Fabric Pattern. Because it's impossible to have two args.
 			// Bastien : sorry
 			var storage = Activator.CreateInstance(typeof(T), new object[] { id, _numberMaxProductsByStorage });
 
@@ -281,8 +329,10 @@ namespace Com.Bvinh.Vendingmachine
 		/// <param name="id">Identifier.</param>
 		public bool StillHavePlaceOnAStorage(string id)
 		{
-			// TODO : fill this function
-			return false;
+			if (!IsAStorageIdAlreadyExists(id))
+				throw VMExceptionUtils.StorageDoesntExists();
+			
+			return ! _storageProducts[id].IsFull;
 		}
 
 		#endregion

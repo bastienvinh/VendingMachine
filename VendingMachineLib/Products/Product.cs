@@ -25,6 +25,18 @@ namespace Com.Bvinh.Vendingmachine
 			}
 		}
 
+		public double Price
+		{
+			get { return _price; }
+			set 
+			{
+				if (value < 0)
+					throw new ProductException("Price is always positive");
+
+				_price = value;
+			}
+		}
+
 		#endregion
 
 

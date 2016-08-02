@@ -38,6 +38,8 @@ namespace Com.Bvinh.Vendingmachine.Utils
 		MAX_MONEY_IS_INFERIOR_TO_CURRENT_MONEY = 9,
 		STORAGE_MAX_CAPACITY_ILLEGAL_NUMBER = 10, 
 		STORAGE_ALREADY_EXISTS = 11,
+		STORAGE_DOESNT_EXISTS = 12,
+		STORAGE_IS_FULL = 13,
 		UNKNOWN_ERROR = 777
 	}
 
@@ -102,7 +104,23 @@ namespace Com.Bvinh.Vendingmachine.Utils
 		/// </summary>
 		/// <returns>The already exists.</returns>
 		public static VMSupplierProductTypeException StorageAlreadyExists() =>
-		new VMSupplierProductTypeException(VMErrorCode.STORAGE_ALREADY_EXISTS, "The container already have a container.");
+		new VMSupplierProductTypeException(VMErrorCode.STORAGE_ALREADY_EXISTS, "The Storage already exists.");
+
+
+		/// <summary>
+		/// Exception when a supplier try to use a non-existed storage.
+		/// </summary>
+		/// <returns>The doesnt exists.</returns>
+		public static VMSupplierProductTypeException StorageDoesntExists() =>
+		new VMSupplierProductTypeException(VMErrorCode.STORAGE_DOESNT_EXISTS, "This storage doesn't exist");
+
+
+		/// <summary>
+		/// Exception when your storage is completly full
+		/// </summary>
+		/// <returns>The is full.</returns>
+		public static VMSupplierProductTypeException StorageIsFull() =>
+		new VMSupplierProductTypeException(VMErrorCode.STORAGE_IS_FULL, "The storage is full and add more product");
 	}
 }
 

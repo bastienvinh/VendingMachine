@@ -25,17 +25,19 @@ namespace Com.Bvinh.Vendingmachine
 		double GetTotalMoneyClient();
 		double GetTotalMoneyMachine();
 		double GetCurrentClientMoney();
-		double RemoveAllProducts();
+		void RemoveAllProducts();
+
+		IEnumerable<string> GetStoragesIds();
 
 
 		// TODO : Explain the int IdStorage
-		bool RemoveProduct(Product product, int IdStorage);
-		bool AddProduct(Product product, int IdStorage);
+		bool RemoveProduct(string idStorage, Product product = null);
+		bool AddProduct(string idStorage, Product product = null);
 
 		void ResetMoneyClientHasSpent();
 		void GiveBackClientMoney();
 
-		int GetNumberOfProductFromStorage(int idStorage);
+		int GetNumberOfProductFromStorage(string idStorage);
 
 
 		void ClientPutMoney(Money m);

@@ -22,6 +22,7 @@ namespace Com.Bvinh.Vendingmachine
 		string IdStorage { get; }
 		int MaxCapacity { get; }
 		int CurrentCapacity { get; }
+		bool IsFull { get; }
 
 		void SetCapacity(int number);
 		void AddOneProduct();

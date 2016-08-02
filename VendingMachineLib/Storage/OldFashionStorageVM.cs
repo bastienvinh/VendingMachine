@@ -102,6 +102,15 @@ namespace Com.Bvinh.Vendingmachine
 		}
 
 		/// <summary>
+		/// Tell if the storage is currently full and can't add more products on it
+		/// </summary>
+		/// <value>The is full.</value>
+		public bool IsFull
+		{
+			get { return _numberProductsOnStorage >= _capacityMax; }
+		}
+
+		/// <summary>
 		/// Increment of one product in the current capacity
 		/// </summary>
 		/// <returns>The one product.</returns>
