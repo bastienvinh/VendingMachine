@@ -34,12 +34,6 @@
     <Reference Include="Functional.Maybe">
       <HintPath>..\packages\Functional.Maybe.1.0.8\lib\portable-net40+win+MonoAndroid10+xamarinios10+MonoTouch10\Functional.Maybe.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Core">
-      <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Moq">
-      <HintPath>..\packages\Moq.4.5.16\lib\net45\Moq.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -53,6 +47,7 @@
     <Compile Include="Products\MoneyTest.cs" />
     <Compile Include="Storage\OldFashionStorageVMTest.cs" />
     <Compile Include="Utils\SomeUtilsMethodsTest.cs" />
+    <Compile Include="VendingMachineTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VendingMachineLib\VendingMachineLib.csproj">
