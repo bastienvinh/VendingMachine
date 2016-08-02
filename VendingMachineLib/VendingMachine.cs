@@ -292,9 +292,8 @@ namespace Com.Bvinh.Vendingmachine
 			if (IsAStorageIdAlreadyExists(id))
 				throw VMExceptionUtils.StorageAlreadyExists();
 
-			// TODO : very bad, I suggest something that shouldn't exists. improve better this case. I think you should create Fabric Pattern. Because it's impossible to have two args.
-			// Bastien : sorry
-			var storage = Activator.CreateInstance(typeof(T), new object[] { id, _numberMaxProductsByStorage });
+			// Error : an erro may occur here if instance don't have the good instance
+			var storage = StorageFactory.Instance.CreateInstance<T>(new object[] { id, _numberMaxProductsByStorage });
 
 			// We add our new storage in our self container
 			var res = (T)storage;

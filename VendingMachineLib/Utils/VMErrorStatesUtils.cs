@@ -96,7 +96,7 @@ namespace Com.Bvinh.Vendingmachine.Utils
 		/// <returns>The have zero or lower as storage max capacity.</returns>
 		public static VMSupplierProductTypeException CanHaveZeroOrLowerAsStorageMaxCapacity() =>
 		new VMSupplierProductTypeException(VMErrorCode.STORAGE_MAX_CAPACITY_ILLEGAL_NUMBER, 
-		                                   "The capacity max of a Storage must me superior to zero.");
+		                                   "The capacity max of a Storage must me superior to zero. Or set the capacity.");
 
 
 		/// <summary>

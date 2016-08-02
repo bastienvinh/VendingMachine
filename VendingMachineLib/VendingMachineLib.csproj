@@ -51,12 +51,15 @@
     <Compile Include="Utils\XEnumerable.cs" />
     <Compile Include="Exceptions\ProductException.cs" />
     <Compile Include="Products\DrinksProduct.cs" />
+    <Compile Include="Factories\StorageFactory.cs" />
+    <Compile Include="Factories\IFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utils\" />
     <Folder Include="Exceptions\" />
     <Folder Include="Products\" />
     <Folder Include="Storage\" />
+    <Folder Include="Factories\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
