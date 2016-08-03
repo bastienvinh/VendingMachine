@@ -23,6 +23,8 @@ namespace Com.Bvinh.Vendingmachine
 		int MaxCapacity { get; }
 		int CurrentCapacity { get; }
 		bool IsFull { get; }
+		bool IsEmpty { get; }
+		int NumberProducts { get; }
 
 		void SetCapacity(int number);
 		void AddOneProduct();
@@ -31,6 +33,15 @@ namespace Com.Bvinh.Vendingmachine
 		void RemoveAProduct(Product aProducts);
 		void ClearProducts();
 		void ClearProducts(TypeOfProduct type);
+	}
+
+
+	/// <summary>
+	/// This a storage that works with storage with only a unique price for his products
+	/// </summary>
+	public interface IStoragePriceVMProducts
+	{
+		double Price { get; set; }
 	}
 }
 

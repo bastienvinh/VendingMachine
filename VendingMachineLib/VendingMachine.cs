@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Functional.Maybe;
-using Com.Bvinh.Vendingmachine.Utils;
+using Com.Bvinh.Linq;
+using Com.Bvinh.Vendingmachine.Exceptions;
 
 namespace Com.Bvinh.Vendingmachine
 {
@@ -17,7 +18,7 @@ namespace Com.Bvinh.Vendingmachine
 	/// T : represent the type of sotrage we need, because the storage is always fix.
 	/// </summary>
 	public class VendingMachine<T> : IVendingMachine
-		where T :IStorageVMProducts
+		where T :IStorageVMProducts, IStoragePriceVMProducts
 	{
 
 
@@ -221,9 +222,6 @@ namespace Com.Bvinh.Vendingmachine
 		/// <returns>The storages identifiers.</returns>
 		public IEnumerable<string> GetStoragesIds() => _storageProducts.Select(s => s.Value.IdStorage).ToList();
 
-
-
-
 		public void ResetMoneyClientHasSpent()
 		{
 			throw new NotImplementedException();
@@ -277,20 +275,17 @@ namespace Com.Bvinh.Vendingmachine
 
 		/// <summary>
 		/// Create new Storage if there still place.
-		/// Exception : VMExceptionUtils => no more storage available.
+		/// Exception : no more storage empty available.
+		/// Exception : Max capacity per storage was not define
+		/// Exception : Storage Id already exists
 		/// </summary>
 		/// <returns>The new storage of type T</returns>
 		/// <param name="id">Identifier of the new Storage</param>
 		public T CreateNewStorage(string id)
 		{
-			if (!HasEmptyStorage)
-				throw VMExceptionUtils.NoMoreReserve();
-
-			if (_numberMaxProductsByStorage <= 0)
-				throw VMExceptionUtils.CanHaveZeroOrLowerAsStorageMaxCapacity();
-
-			if (IsAStorageIdAlreadyExists(id))
-				throw VMExceptionUtils.StorageAlreadyExists();
+			(!HasEmptyStorage).IfTrue(() => { throw VMExceptionUtils.NoMoreReserve(); });
+			(_numberMaxProductsByStorage <= 0).IfTrue(() => { throw VMExceptionUtils.CanHaveZeroOrLowerAsStorageMaxCapacity(); });
+			(IsAStorageIdAlreadyExists(id)).IfTrue(() => { throw VMExceptionUtils.StorageAlreadyExists(); });
 
 			// Error : an erro may occur here if instance don't have the good instance
 			var storage = StorageFactory.Instance.CreateInstance<T>(new object[] { id, _numberMaxProductsByStorage });
@@ -300,6 +295,47 @@ namespace Com.Bvinh.Vendingmachine
 			_storageProducts.Add(id, res);
 
 			return res;
+		}
+
+		/// <summary>
+		/// Create a new storage and set the price in the same time.
+		/// Exception : no more storage empty available.
+		/// Exception : Max capacity per storage was not define
+		/// Exception : Storage Id already exists
+		/// </summary>
+		/// <returns>The new storage.</returns>
+		/// <param name="idStorage">Identifier storage.</param>
+		/// <param name="price">Price by product</param>
+		public T CreateNewStorage(string idStorage, double price)
+		{
+			// An exception will occur here, so just let him like that, no need to catch
+			var newStorage = CreateNewStorage(idStorage);
+			newStorage.Price = price;
+
+			return newStorage;
+		}
+
+		/// <summary>
+		/// Set price for a storage
+		/// </summary>
+		/// <returns>The price storage.</returns>
+		/// <param name="idStorage">Identifier storage.</param>
+		/// <param name="price">Price.</param>
+		public void SetPriceStorage(string idStorage, double price)
+		{
+			(!IsAStorageIdAlreadyExists(idStorage)).IfTrue(() => { throw VMExceptionUtils.StorageDoesntExists(); });
+			_storageProducts[idStorage].Price = price;
+		}
+
+		/// <summary>
+		/// Get the price fix on a storage
+		/// </summary>
+		/// <returns>The price product on this storage.</returns>
+		/// <param name="idStorage">Identifier storage.</param>
+		public double GetPriceProductOnThisStorage(string idStorage)
+		{
+			(!IsAStorageIdAlreadyExists(idStorage)).IfTrue(() => { throw VMExceptionUtils.StorageDoesntExists(); });
+			return _storageProducts[idStorage].Price;
 		}
 
 		/// <summary>
@@ -328,10 +364,31 @@ namespace Com.Bvinh.Vendingmachine
 		/// <param name="id">Identifier.</param>
 		public bool StillHavePlaceOnAStorage(string id)
 		{
-			if (!IsAStorageIdAlreadyExists(id))
-				throw VMExceptionUtils.StorageDoesntExists();
-			
+			(!IsAStorageIdAlreadyExists(id)).IfTrue(() => { throw VMExceptionUtils.StorageDoesntExists(); });
 			return ! _storageProducts[id].IsFull;
+		}
+
+
+		/// <summary>
+		/// Remove a storage
+		/// </summary>
+		/// <returns>The storage.</returns>
+		/// <param name="idStorage">Identifier storage.</param>
+		public void RemoveStorage(string idStorage)
+		{
+			(!IsAStorageIdAlreadyExists(idStorage)).IfTrue(() => { throw VMExceptionUtils.StorageDoesntExists(); });
+			_storageProducts.Remove(idStorage);
+		}
+
+		/// <summary>
+		/// Check if the storage is empty or not
+		/// </summary>
+		/// <returns>The this storage is empty.</returns>
+		/// <param name="idStorage">Identifier storage.</param>
+		public bool IsThisStorageIsEmpty(string idStorage)
+		{
+			(!IsAStorageIdAlreadyExists(idStorage)).IfTrue(() => { throw VMExceptionUtils.StorageDoesntExists(); });
+			return _storageProducts[idStorage].IsEmpty;
 		}
 
 		#endregion

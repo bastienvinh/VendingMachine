@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Com.Bvinh.Vendingmachine.Utils
+namespace Com.Bvinh.Vendingmachine.Exceptions
 {
 
 
@@ -120,7 +120,7 @@ namespace Com.Bvinh.Vendingmachine.Utils
 		/// </summary>
 		/// <returns>The is full.</returns>
 		public static VMSupplierProductTypeException StorageIsFull() =>
-		new VMSupplierProductTypeException(VMErrorCode.STORAGE_IS_FULL, "The storage is full and add more product");
+		new VMSupplierProductTypeException(VMErrorCode.STORAGE_IS_FULL, "The storage is full and can't add more product");
 	}
 }
 

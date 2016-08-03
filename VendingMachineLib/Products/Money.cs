@@ -46,12 +46,12 @@ namespace Com.Bvinh.Vendingmachine
 
 		#region Enumeration Types
 
-		public static Money P1 = new Money(1, 1, "1p", "p1");
-		public static Money P2 = new Money(2, 2, "2p", "p2");
-		public static Money P3 = new Money(3, 5, "5p", "p5");
-		public static Money P10 = new Money(4, 10, "10p", "p10");
-		public static Money P20 = new Money(5, 20, "20p", "p20");
-		public static Money P50 = new Money(6, 50, "50p", "p50");
+		public static readonly Money P1 = new Money(1, 1, "1p", "p1");
+		public static readonly Money P2 = new Money(2, 2, "2p", "p2");
+		public static readonly Money P3 = new Money(3, 5, "5p", "p5");
+		public static readonly Money P10 = new Money(4, 10, "10p", "p10");
+		public static readonly Money P20 = new Money(5, 20, "20p", "p20");
+		public static readonly Money P50 = new Money(6, 50, "50p", "p50");
 
 		#endregion
 

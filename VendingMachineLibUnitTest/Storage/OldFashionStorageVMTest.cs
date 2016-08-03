@@ -4,7 +4,8 @@ using System.Linq;
 using NUnit.Framework;
 using NUnit;
 using Com.Bvinh.Vendingmachine;
-using Com.Bvinh.Vendingmachine.Utils;
+using Com.Bvinh.Vendingmachine.Exceptions;
+using Com.Bvinh.Linq;
 using Moq;
 using Moq.Protected;
 using Moq.Language;
@@ -173,7 +174,6 @@ namespace VendingMachineLibUnitTest
 			const int LOCAL_CONST_LIMIT_TEST = 10;
 			const string LOCAL_CONST_ERROR_MESSAGE_OVERCAPACITY_OF_STORAGE = "You can't add more on this storage.";
 
-			//var aStorageVM = new OldFashionStorageVM(LOCAL_CONST_LIMIT_TEST);
 			var aStorageVM = StorageFactory.Instance.CreateInstance<OldFashionStorageVM>(LOCAL_CONST_LIMIT_TEST);
 
 			Assert.Throws<StorageException>(() =>
@@ -182,6 +182,28 @@ namespace VendingMachineLibUnitTest
 				Enumerable.Range(0, LOCAL_CONST_LIMIT_TEST + 2).ForEach((x) => aStorageVM.AddOneProduct());
 
 			}, LOCAL_CONST_ERROR_MESSAGE_OVERCAPACITY_OF_STORAGE);
+
+		}
+
+
+		[Description("Test if a storage should be full or not")]
+		[Test]
+		public void TestIfItsFullOrNot()
+		{
+
+			const int LOCAL_CONST_LIMIT_TEST = 10;
+
+			var aStorageVM = StorageFactory.Instance.CreateInstance<OldFashionStorageVM>(LOCAL_CONST_LIMIT_TEST);
+
+			Assert.IsFalse(aStorageVM.IsFull);
+			Assert.IsTrue(aStorageVM.IsEmpty);
+
+			Assert.DoesNotThrow(() =>
+			{
+				Xfb.Range(LOCAL_CONST_LIMIT_TEST).ForEach(x => { aStorageVM.AddOneProduct(); });
+			});
+
+			Assert.IsTrue(aStorageVM.IsFull);
 
 		}
 

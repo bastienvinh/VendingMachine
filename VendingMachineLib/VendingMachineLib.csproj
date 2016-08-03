@@ -53,6 +53,7 @@
     <Compile Include="Products\DrinksProduct.cs" />
     <Compile Include="Factories\StorageFactory.cs" />
     <Compile Include="Factories\IFactory.cs" />
+    <Compile Include="Utils\XType.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utils\" />

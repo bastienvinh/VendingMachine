@@ -1,12 +1,15 @@
 ﻿using System;
 namespace Com.Bvinh.Vendingmachine
 {
-	public class Product
+	/// <summary>
+	/// Abstract class for any type of products
+	/// </summary>
+	public abstract class Product
 	{
 
 		#region Attributes
-		private double _price;
-		private float _directTax;
+		protected double _price;
+		protected float _directTax;
 		#endregion
 
 		#region Properties
@@ -38,9 +41,13 @@ namespace Com.Bvinh.Vendingmachine
 		}
 
 		#endregion
+	}
 
-
-
+	/// <summary>
+	/// Asny product you want
+	/// </summary>
+	public class AnyProduct : Product
+	{
 	}
 }
 

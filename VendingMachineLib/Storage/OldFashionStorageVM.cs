@@ -13,7 +13,7 @@ namespace Com.Bvinh.Vendingmachine
 	/// <summary>
 	/// The Old fashion Storage speak of himself. That means a fix storage and multiple on a Vending Machine.
 	/// </summary>
-	public class OldFashionStorageVM : IStorageVMProducts
+	public class OldFashionStorageVM : IStorageVMProducts, IStoragePriceVMProducts
 	{
 
 		#region Constants
@@ -108,6 +108,30 @@ namespace Com.Bvinh.Vendingmachine
 		public bool IsFull
 		{
 			get { return _numberProductsOnStorage >= _capacityMax; }
+		}
+
+		/// <summary>
+		/// Tell if the storage is empty or not
+		/// </summary>
+		/// <value>This is empty or not</value>
+		public bool IsEmpty
+		{
+			get
+			{
+				return _numberProductsOnStorage <= 0; 
+			}
+		}
+
+		/// <summary>
+		/// Get the number of products stored
+		/// </summary>
+		/// <value>The number products.</value>
+		public int NumberProducts
+		{
+			get
+			{
+				return _numberProductsOnStorage;
+			}
 		}
 
 		/// <summary>

@@ -56,6 +56,7 @@
     <Compile Include="Utils\SomeUtilsMethodsTest.cs" />
     <Compile Include="VendingMachineTest.cs" />
     <Compile Include="Stubs\StorageStub.cs" />
+    <Compile Include="Utils\XifTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VendingMachineLib\VendingMachineLib.csproj">

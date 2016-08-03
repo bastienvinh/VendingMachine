@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
-namespace Com.Bvinh.Vendingmachine.Utils
+namespace Com.Bvinh.Linq
 {
 
 	/// <summary>
@@ -21,6 +22,21 @@ namespace Com.Bvinh.Vendingmachine.Utils
 			foreach (T item in enumeration)
 				action(item);
 		}
+	}
+
+	// Bastien : yes I know I am pretty lazy. But sometimes, I need something simple. Or course, it's just a test project.
+
+	/// <summary>
+	/// X (Extension) F(Framework) b(bvinh)
+	/// </summary>
+	public static partial class Xfb
+	{
+		/// <summary>
+		/// Create a collection of number from 0 to the number
+		/// Just to write less
+		/// </summary>
+		/// <param name="number">Number.</param>
+		public static IEnumerable<int> Range(int number) => Enumerable.Range(0, number);
 	}
 }
 

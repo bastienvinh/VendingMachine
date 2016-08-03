@@ -1,5 +1,5 @@
 ﻿using System;
-using Com.Bvinh.Vendingmachine.Utils;
+using Com.Bvinh.Vendingmachine.Exceptions;
 
 namespace Com.Bvinh.Vendingmachine
 {
