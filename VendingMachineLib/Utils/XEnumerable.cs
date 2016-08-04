@@ -8,7 +8,7 @@ namespace Com.Bvinh.Linq
 	/// <summary>
 	/// Extensions for IEnumeralble
 	/// </summary>
-	public static class XEnumerable
+	public static partial class XEnumerable
 	{
 		/// <summary>
 		/// Will loop and make any action for each elements of your Container.
@@ -29,6 +29,9 @@ namespace Com.Bvinh.Linq
 		/// <returns><c>true</c>, The collection is empty, <c>false</c> The Collection is not empty.</returns>
 		/// <param name="source">Current collection</param>
 		public static bool IsNotNullOrEmpty(this IEnumerable<object> source) => source != null && source.Any();
+
+		// TODO : Create a methods HasValue
+		//public static bool HasValue( Pro )
 	}
 
 	// Bastien : yes I know I am pretty lazy. But sometimes, I need something simple. Or course, it's just a test project.

@@ -31,7 +31,7 @@ namespace Com.Bvinh.Vendingmachine
 		private int _numberMaxProductsByStorage;
 
 		private Dictionary<string, T> _storageProducts;
-		private IEnumerable<Money> _listAuthorizedMoney;
+		private List<Money> _listAuthorizedMoney;
 
 		// Money
 		private double _maxMoney;
@@ -265,23 +265,55 @@ namespace Com.Bvinh.Vendingmachine
 		/// <param name="moneyList">New List of money</param>
 		public void SetAuthorizeMoneyList(IEnumerable<Money> moneyList)
 		{
-			(moneyList.IsNotNullOrEmpty()).IfFalseThrow<ArgumentException>("Money list is empty");
-			_listAuthorizedMoney = moneyList;
+			(moneyList.IsNotNullOrEmpty()).IfFalseThrow<ArgumentException>("Money list is empty.");
+			_listAuthorizedMoney = moneyList.ToList();
 		}
 
+		/// <summary>
+		/// Add new money to the accept list of the vending machine
+		/// </summary>
+		/// <param name="money">Money.</param>
 		public void AddMoneyAuthorizedMoney(Money money)
 		{
-			
+			// We add the money if the list doesn't contain the money yet
+			(_listAuthorizedMoney.Contains(money)).IfFalse(() => _listAuthorizedMoney.Add(money));
 		}
 
+		/// <summary>
+		/// Add to accept moneys list all Money.
+		/// </summary>
+		/// <param name="moneyArgs">Money(s) arguments.</param>
+		public void AddMoneyAuthorizedMoney(params Money[] moneyArgs)
+		{
+			(moneyArgs.IsNotNullOrEmpty()).IfFalseThrow<ArgumentException>("moneyArgs parameter => can be null or empty");
+			moneyArgs.ForEach(AddMoneyAuthorizedMoney);
+		}
+
+		/// <summary>
+		/// Remove this money from the acceptlist
+		/// </summary>
+		/// <param name="money">Money.</param>
 		public void RemoveAuthorizedMoney(Money money)
 		{
+			(_listAuthorizedMoney.Contains(money)).IfTrue(() => _listAuthorizedMoney.Remove(money));
 		}
 
-		public bool IsThisMoneyAuthorized(Money money)
+		/// <summary>
+		/// Remove to accept moneys all the Money
+		/// </summary>
+		/// <param name="moneyArgs">Money(s) to remove</param>
+		public void RemoveAuthorizedMoney(params Money[] moneyArgs)
 		{
-			throw new NotImplementedException();
+			(moneyArgs.IsNotNullOrEmpty()).IfFalseThrow<ArgumentException>("moneyArgs parameter => can be null or empty");
+			moneyArgs.ForEach(RemoveAuthorizedMoney);
 		}
+
+		/// <summary>
+		/// Check if 
+		/// </summary>
+		/// <returns><c>true</c>, The vending machine accept this money, <c>false</c> The vending machine doesn't accept this money.</returns>
+		/// <param name="money">Money.</param>
+		public bool IsThisMoneyAuthorized(Money money) => _listAuthorizedMoney.Contains(money);
 
 		#endregion
 

@@ -49,6 +49,8 @@ namespace Com.Bvinh.Test.Vending
 		{
 			_machine = new VendingMachine<OldFashionStorageVM>(10);
 			_machine.NumberMaxProductsByStorage = 10;
+
+			_machine.AddMoneyAuthorizedMoney(Money.P1, Money.P2, Money.P10);
 		}
 		#endregion
 
