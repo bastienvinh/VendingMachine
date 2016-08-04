@@ -80,6 +80,73 @@ namespace VendingMachineLibUnitTest
 
 		}
 
+
+		[Description("IfTrueThrow throw an exception corretly without the multiple case.")]
+		[Test]
+		public void TestIfTrueThrowMethodsAreWorking()
+		{
+			const string LOCAL_CONST_GOOD_MESSAGE = "The life is superb, and it's sunny, but go catch pokemon buddy ...";
+			const string LOCAL_CONST_NOT_GOOD_AT_ALL = "What the heck you have this message, redevelp again your methods, stuoid guy";
+
+
+			// First methods wih IfTrueThrow(Func<Exception> func);
+
+			Assert.Throws<AnyException>(() =>
+			{
+				true.IfTrueThrow(() => new AnyException(LOCAL_CONST_GOOD_MESSAGE));
+			}, LOCAL_CONST_GOOD_MESSAGE);
+
+			Assert.DoesNotThrow(() =>
+			{
+				true.IfFalseThrow(() => new AnyException(LOCAL_CONST_NOT_GOOD_AT_ALL));
+				false.IfTrueThrow(() => new AnyException(LOCAL_CONST_NOT_GOOD_AT_ALL));
+			});
+
+
+			// Seconds methods with ifTrueThrow<Exception>(string message) 
+
+			Assert.Throws<AnyException>(() => { true.IfTrueThrow<AnyException>(LOCAL_CONST_GOOD_MESSAGE); }, LOCAL_CONST_GOOD_MESSAGE);
+			Assert.DoesNotThrow(() =>
+			{
+				true.IfFalseThrow<AnyException>(LOCAL_CONST_NOT_GOOD_AT_ALL);
+				false.IfTrueThrow<AnyException>(LOCAL_CONST_NOT_GOOD_AT_ALL);
+			});
+
+		}
+
+		[Description("IfFalseThrow throw an exception corretly without the multiple case.")]
+		[Test]
+		public void TestIfFalseThrowMethodsAreWorking()
+		{
+			const string LOCAL_CONST_GOOD_MESSAGE = "The life is superb, and it's sunny, but go catch pokemon buddy ...";
+			const string LOCAL_CONST_NOT_GOOD_AT_ALL = "What the heck you have this message, redevelp again your methods, stuoid guy";
+
+
+
+			// First methods wih IfFalseThrow(Func<Exception> func);
+
+			Assert.Throws<AnyException>(() =>
+			{
+				false.IfFalseThrow(() => new AnyException(LOCAL_CONST_GOOD_MESSAGE));
+			}, LOCAL_CONST_GOOD_MESSAGE);
+
+			Assert.DoesNotThrow(() =>
+			{
+				false.IfTrueThrow(() => new AnyException(LOCAL_CONST_NOT_GOOD_AT_ALL));
+				true.IfFalseThrow(() => new AnyException(LOCAL_CONST_NOT_GOOD_AT_ALL));
+			});
+
+
+			// Seconds methods with ifTrueThrow<Exception>(string message) 
+
+			Assert.Throws<AnyException>(() => { false.IfFalseThrow<AnyException>(LOCAL_CONST_GOOD_MESSAGE); }, LOCAL_CONST_GOOD_MESSAGE);
+			Assert.DoesNotThrow(() =>
+			{
+				false.IfTrueThrow<AnyException>(LOCAL_CONST_NOT_GOOD_AT_ALL);
+				true.IfFalseThrow<AnyException>(LOCAL_CONST_NOT_GOOD_AT_ALL);
+			});
+
+		}
 	}
 }
 

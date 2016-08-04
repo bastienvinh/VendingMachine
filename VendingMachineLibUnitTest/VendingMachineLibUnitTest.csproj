@@ -49,6 +49,7 @@
     <Folder Include="Utils\" />
     <Folder Include="Storage\" />
     <Folder Include="Stubs\" />
+    <Folder Include="Exceptions\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Products\MoneyTest.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="VendingMachineTest.cs" />
     <Compile Include="Stubs\StorageStub.cs" />
     <Compile Include="Utils\XifTest.cs" />
+    <Compile Include="Exceptions\AnyException.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VendingMachineLib\VendingMachineLib.csproj">

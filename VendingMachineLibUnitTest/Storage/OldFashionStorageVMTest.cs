@@ -204,7 +204,6 @@ namespace VendingMachineLibUnitTest
 			});
 
 			Assert.IsTrue(aStorageVM.IsFull);
-
 		}
 
 

@@ -23,7 +23,6 @@ namespace Com.Bvinh.Vendingmachine
 		private const float MAX_LITRES_POSSIBLE = 69741f;
 
 		#region Attributes
-		// TODO : Add type of drinks
 		protected float _litres;
 		#endregion
 

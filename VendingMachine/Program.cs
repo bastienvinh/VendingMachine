@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Com.Bvinh.Vendingmachine;
 using Com.Bvinh.Linq;
-
+using System.Reflection;
 
 namespace Com.Bvinh.Test.Vending
 {
@@ -16,7 +16,10 @@ namespace Com.Bvinh.Test.Vending
 
 		public static void Main(string[] args)
 		{
-			Init();
+			//Init();
+
+			var test = typeof(VendingMachineException).GetConstructor(new[] { typeof(string) });
+			test.GetHashCode();
 
 			// We fill tha machine, the capacity is 30 cokes, 20 sprites, 30 fanta and 20 juices
 
