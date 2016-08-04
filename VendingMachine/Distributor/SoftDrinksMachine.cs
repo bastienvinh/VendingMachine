@@ -79,7 +79,17 @@ namespace Com.Bvinh.Test.Vending
 			AddMoreOneProduct(SODA_JUICE_RANGE_1, SODA_JUICE_RANGE_1);
 		}
 
+
 		#endregion
+
+
+		#region Money
+
+
+
+
+		#endregion
+
 
 
 		#region Storage

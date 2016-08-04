@@ -26,6 +26,10 @@ namespace Com.Bvinh.Vendingmachine
 		double GetTotalMoneyMachine();
 		double GetCurrentClientMoney();
 		void RemoveAllProducts();
+		void SetAuthorizeMoneyList(IEnumerable<Money> moneyList);
+		void AddMoneyAuthorizedMoney(Money money);
+		void RemoveAuthorizedMoney(Money money);
+		bool IsThisMoneyAuthorized(Money money);
 
 		IEnumerable<string> GetStoragesIds();
 

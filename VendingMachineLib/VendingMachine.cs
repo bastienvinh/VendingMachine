@@ -31,6 +31,7 @@ namespace Com.Bvinh.Vendingmachine
 		private int _numberMaxProductsByStorage;
 
 		private Dictionary<string, T> _storageProducts;
+		private IEnumerable<Money> _listAuthorizedMoney;
 
 		// Money
 		private double _maxMoney;
@@ -95,6 +96,7 @@ namespace Com.Bvinh.Vendingmachine
 			_storageProducts = new Dictionary<string, T>();
 
 			_maxMoney = int.MaxValue; // max double will be humanly impossible.
+			_listAuthorizedMoney = new List<Money>();
 		}
 
 		#endregion
@@ -237,7 +239,6 @@ namespace Com.Bvinh.Vendingmachine
 			throw new NotImplementedException();
 		}
 
-
 		public double GetCurrentClientMoney()
 		{
 			throw new NotImplementedException();
@@ -258,7 +259,29 @@ namespace Com.Bvinh.Vendingmachine
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Set the new list of money that the veding machine can take
+		/// </summary>
+		/// <param name="moneyList">New List of money</param>
+		public void SetAuthorizeMoneyList(IEnumerable<Money> moneyList)
+		{
+			(moneyList.IsNotNullOrEmpty()).IfFalseThrow<ArgumentException>("Money list is empty");
+			_listAuthorizedMoney = moneyList;
+		}
 
+		public void AddMoneyAuthorizedMoney(Money money)
+		{
+			
+		}
+
+		public void RemoveAuthorizedMoney(Money money)
+		{
+		}
+
+		public bool IsThisMoneyAuthorized(Money money)
+		{
+			throw new NotImplementedException();
+		}
 
 		#endregion
 

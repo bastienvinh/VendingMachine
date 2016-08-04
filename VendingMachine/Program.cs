@@ -16,7 +16,7 @@ namespace Com.Bvinh.Test.Vending
 
 		public static void Main(string[] args)
 		{
-			//Init();
+			Init();
 
 			var test = typeof(VendingMachineException).GetConstructor(new[] { typeof(string) });
 			test.GetHashCode();
@@ -36,6 +36,8 @@ namespace Com.Bvinh.Test.Vending
 			Xfb.Range(20).ForEach((i) => { SelfSoftDrinkVM.AddMoreSprite(); });
 			Xfb.Range(30).ForEach((i) => { SelfSoftDrinkVM.AddMoreFanta(); });
 			Xfb.Range(20).ForEach((i) => { SelfSoftDrinkVM.AddMoreJuice(); });
+
+
 		}
 	}
 }

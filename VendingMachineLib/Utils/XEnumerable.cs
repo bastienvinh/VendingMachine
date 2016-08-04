@@ -22,6 +22,13 @@ namespace Com.Bvinh.Linq
 			foreach (T item in enumeration)
 				action(item);
 		}
+
+		/// <summary>
+		/// Check if a collection is empty or not
+		/// </summary>
+		/// <returns><c>true</c>, The collection is empty, <c>false</c> The Collection is not empty.</returns>
+		/// <param name="source">Current collection</param>
+		public static bool IsNotNullOrEmpty(this IEnumerable<object> source) => source != null && source.Any();
 	}
 
 	// Bastien : yes I know I am pretty lazy. But sometimes, I need something simple. Or course, it's just a test project.

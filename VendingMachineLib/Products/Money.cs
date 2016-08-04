@@ -19,7 +19,7 @@ namespace Com.Bvinh.Vendingmachine
 	// For now I tale in account the currency since a vending machine doesn't manage multiple currencies
 
 
-	public sealed class Money
+	public class Money
 	{
 		#region Properties
 
@@ -30,10 +30,9 @@ namespace Com.Bvinh.Vendingmachine
 
 		#endregion
 
-
 		#region Constructor
 
-		private Money(int code, double value, string name, string referenceType)
+		public Money(int code, double value, string name, string referenceType)
 		{
 			Code = code;
 			Value = value;
@@ -43,8 +42,7 @@ namespace Com.Bvinh.Vendingmachine
 
 		#endregion
 
-
-		#region Enumeration Types
+		#region Enumeration Prebuild Types
 
 		public static readonly Money P1 = new Money(1, 1, "1p", "p1");
 		public static readonly Money P2 = new Money(2, 2, "2p", "p2");
