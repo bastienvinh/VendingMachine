@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace Com.Bvinh.Linq
 {
@@ -20,7 +21,23 @@ namespace Com.Bvinh.Linq
 		public static void ForEach<T>(this IEnumerable<T> enumeration, Action<T> action)
 		{
 			foreach (T item in enumeration)
-				action(item);
+			{
+				if (action != null) action(item);
+			}
+		}
+
+		/// <summary>
+		/// For Any dictionnary
+		/// </summary>
+		/// <param name="source">Source.</param>
+		/// <param name="action">Action.</param>
+		public static void ForEach(this IDictionary source, Action<object, object> action)
+		{
+			foreach (KeyValuePair<object, object> p in source)
+			{
+				if (action != null)
+					action(p.Key, p.Value);
+			}
 		}
 
 		/// <summary>

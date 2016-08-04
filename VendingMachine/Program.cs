@@ -34,7 +34,8 @@ namespace Com.Bvinh.Test.Vending
 			Xfb.Range(30).ForEach((i) => { SelfSoftDrinkVM.AddMoreFanta(); });
 			Xfb.Range(20).ForEach((i) => { SelfSoftDrinkVM.AddMoreJuice(); });
 
-
+			SelfSoftDrinkVM.FillStartMoney();
+			SelfSoftDrinkVM.ShowOnConsoleTotalOnMachine();
 		}
 	}
 }

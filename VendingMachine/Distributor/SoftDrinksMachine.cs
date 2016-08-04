@@ -4,6 +4,8 @@ using Com.Bvinh.Vendingmachine;
 using Com.Bvinh.Linq;
 using Com.Bvinh.Vendingmachine.Exceptions;
 using Functional.Maybe;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Com.Bvinh.Test.Vending
 {
@@ -50,7 +52,7 @@ namespace Com.Bvinh.Test.Vending
 			_machine = new VendingMachine<OldFashionStorageVM>(10);
 			_machine.NumberMaxProductsByStorage = 10;
 
-			_machine.AddMoneyAuthorizedMoney(Money.P1, Money.P2, Money.P10);
+			_machine.AddMoneyAuthorizedMoney(Money.P1, Money.P2, Money.P5, Money.P10);
 		}
 		#endregion
 
@@ -88,7 +90,10 @@ namespace Com.Bvinh.Test.Vending
 		#region Money
 
 
-
+		public void AddMoney(Money money)
+		{
+			
+		}
 
 		#endregion
 
@@ -144,6 +149,20 @@ namespace Com.Bvinh.Test.Vending
 		private void CheckStorageIfNotExists(string idStorage, Product pr) =>
 			_machine.IsAStorageIdAlreadyExists(idStorage)
 		          .IfFalse(() => _machine.CreateNewStorage(idStorage, pr.Price));
+
+		// OF course we cheat, this only an example
+		// Total = 40 + 20 + 75 + 50 = 185 
+		public void FillStartMoney() => _machine.FillMoney(new Dictionary<Money, int> { 
+			{ Money.P1, 40 },
+			{ Money.P2, 10 },
+			{ Money.P5, 15 },
+			{ Money.P10, 5 }
+		});
+
+		public void ShowOnConsoleTotalOnMachine()
+		{
+			Console.WriteLine("Total : {0}p", _machine.GetTotalMoneyMachine());
+		}
 		
 
 		#endregion

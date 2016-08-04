@@ -10,6 +10,7 @@ namespace Com.Bvinh.Vendingmachine
 
 	using SeveralMoney = Tuple<int, Money>;
 	using RestOfMoney = List<Tuple<int, Money>>;
+	using StorageMoneyTuple = Dictionary<Money, int>;
 
 
 	/// <summary>
@@ -31,10 +32,11 @@ namespace Com.Bvinh.Vendingmachine
 		private int _numberMaxProductsByStorage;
 
 		private Dictionary<string, T> _storageProducts;
-		private List<Money> _listAuthorizedMoney;
+		private StorageMoneyTuple _listMoneysInVM;
 
 		// Money
 		private double _maxMoney;
+		private double _currentMoney;
 
 		// TODO : implements max capacity for each storage (IMPORTANTS)
 
@@ -96,7 +98,8 @@ namespace Com.Bvinh.Vendingmachine
 			_storageProducts = new Dictionary<string, T>();
 
 			_maxMoney = int.MaxValue; // max double will be humanly impossible.
-			_listAuthorizedMoney = new List<Money>();
+			_listMoneysInVM = new StorageMoneyTuple();
+			_currentMoney = 0;
 		}
 
 		#endregion
@@ -231,11 +234,15 @@ namespace Com.Bvinh.Vendingmachine
 
 		public void ClientPutMoney(Money m)
 		{
-			throw new NotImplementedException();
+			IsThisMoneyAuthorized(m).IfFalseThrow(VMExceptionUtils.MoneyNotAuthorized);
+			// TODO : Verify max money
+			_listMoneysInVM[m]++;
 		}
 
 		public RestOfMoney GetMoneyBackFromVM()
 		{
+
+
 			throw new NotImplementedException();
 		}
 
@@ -249,15 +256,23 @@ namespace Com.Bvinh.Vendingmachine
 			throw new NotImplementedException();
 		}
 
-		public double GetTotalMoneyMachine()
-		{
-			throw new NotImplementedException();
-		}
+		/// <summary>
+		/// Get the total amount of the machine by making a summ of all the moneys stored.
+		/// </summary>
+		/// <returns>Total Money</returns>
+		public double GetTotalMoneyMachine() => _listMoneysInVM.Sum((keyValM) => keyValM.Key.Value * keyValM.Value);
 
 		public void GiveBackClientMoney()
 		{
 			throw new NotImplementedException();
 		}
+
+
+		/// <summary>
+		/// Retrieve the list of accepted money by the Vending Machine
+		/// </summary>
+		/// <returns>The list authorized money.</returns>
+		public List<Money> GetListAuthorizedMoney() => _listMoneysInVM.Keys.ToList();
 
 		/// <summary>
 		/// Set the new list of money that the veding machine can take
@@ -266,7 +281,10 @@ namespace Com.Bvinh.Vendingmachine
 		public void SetAuthorizeMoneyList(IEnumerable<Money> moneyList)
 		{
 			(moneyList.IsNotNullOrEmpty()).IfFalseThrow<ArgumentException>("Money list is empty.");
-			_listAuthorizedMoney = moneyList.ToList();
+			//_listAuthorizedMoney = moneyList.ToList();
+
+			// TODO : should continue this function
+			throw new NotImplementedException();
 		}
 
 		/// <summary>
@@ -276,7 +294,7 @@ namespace Com.Bvinh.Vendingmachine
 		public void AddMoneyAuthorizedMoney(Money money)
 		{
 			// We add the money if the list doesn't contain the money yet
-			(_listAuthorizedMoney.Contains(money)).IfFalse(() => _listAuthorizedMoney.Add(money));
+			(_listMoneysInVM.ContainsKey(money)).IfFalse(() => _listMoneysInVM.Add(money, 0));
 		}
 
 		/// <summary>
@@ -295,7 +313,7 @@ namespace Com.Bvinh.Vendingmachine
 		/// <param name="money">Money.</param>
 		public void RemoveAuthorizedMoney(Money money)
 		{
-			(_listAuthorizedMoney.Contains(money)).IfTrue(() => _listAuthorizedMoney.Remove(money));
+			((_listMoneysInVM.ContainsKey(money))).IfTrue(() => _listMoneysInVM.Remove(money));
 		}
 
 		/// <summary>
@@ -313,7 +331,7 @@ namespace Com.Bvinh.Vendingmachine
 		/// </summary>
 		/// <returns><c>true</c>, The vending machine accept this money, <c>false</c> The vending machine doesn't accept this money.</returns>
 		/// <param name="money">Money.</param>
-		public bool IsThisMoneyAuthorized(Money money) => _listAuthorizedMoney.Contains(money);
+		public bool IsThisMoneyAuthorized(Money money) => _listMoneysInVM.ContainsKey(money);
 
 		#endregion
 
@@ -449,6 +467,60 @@ namespace Com.Bvinh.Vendingmachine
 		#endregion
 
 
+		#region Money
+
+
+		/// <summary>
+		/// Gets the list money from client money. Give back by the geater value that I have
+		/// You must change this algorithm if you want giving back money differently. 
+		/// Bastien : I know some Vending Machine will give back coins first. It's depend how to you will back the money
+		/// </summary>
+		/// <returns>The list money from client money.</returns>
+		private List<SeveralMoney> GetListMoneyFromClientMoney()
+		{
+			var restMoneyClient = _currentMoney;
+			var orderList = _listMoneysInVM.OrderByDescending(p => p.Key.Value);
+
+			var res = new List<SeveralMoney>();
+			_listMoneysInVM.ForEach((money, unitHave) =>
+			{
+				var unitNeeded = restMoneyClient / (money as Money).Value;
+
+				//restMoneyClient = restMoneyClient % money
+
+				// TODO : finnish this one
+			});
+
+			return null;
+		}
+
+		/// <summary>
+		/// Clear the money into the Vending Machine.
+		/// </summary>
+		private void ClearMoneyIntheMachine() => _listMoneysInVM.ForEach((key, val) => { _listMoneysInVM[key as Money] = 0; });
+
+
+		/// <summary>
+		/// We fill the Vending Machine with moneys
+		/// </summary>
+		/// <param name="money">Money.</param>
+		/// <param name="units">Units of money you want to add</param>
+		public void FillMoney( Money money, int units )
+		{
+			_listMoneysInVM.ContainsKey(money).IfFalseThrow(VMExceptionUtils.MoneyNotAuthorized);
+			_listMoneysInVM[money] += units;
+		}
+
+		public void FillMoney(IDictionary<Money, int> credits) => credits.ForEach((keyVal) => FillMoney(keyVal.Key, keyVal.Value));
+
+		public void RemoveMoney(Money money, int units)
+		{
+			_listMoneysInVM.ContainsKey(money).IfFalseThrow(VMExceptionUtils.MoneyNotAuthorized);
+			(_listMoneysInVM[money] < units).IfTrueThrow( VMExceptionUtils.NotEnoughMoneyInVendingMachine);
+			_listMoneysInVM[money] -= units;
+		}
+
+		#endregion
 	}
 }
 

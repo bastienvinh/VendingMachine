@@ -36,10 +36,12 @@ namespace Com.Bvinh.Vendingmachine.Exceptions
 		NO_MORE_STORAGE_AVAILABLE = 7,
 		MAX_MONEY_CANT_BE_NEGATIVE = 8,
 		MAX_MONEY_IS_INFERIOR_TO_CURRENT_MONEY = 9,
-		STORAGE_MAX_CAPACITY_ILLEGAL_NUMBER = 10, 
+		STORAGE_MAX_CAPACITY_ILLEGAL_NUMBER = 10,
 		STORAGE_ALREADY_EXISTS = 11,
 		STORAGE_DOESNT_EXISTS = 12,
 		STORAGE_IS_FULL = 13,
+		MONEY_NOT_AUTORIZED = 14,
+		NOT_ENOUGH_MONEY_STORED = 15,
 		UNKNOWN_ERROR = 777
 	}
 
@@ -121,6 +123,12 @@ namespace Com.Bvinh.Vendingmachine.Exceptions
 		/// <returns>The is full.</returns>
 		public static VMSupplierProductTypeException StorageIsFull() =>
 		new VMSupplierProductTypeException(VMErrorCode.STORAGE_IS_FULL, "The storage is full and can't add more product");
+
+		public static VMClientTypeException MoneyNotAuthorized() =>
+		new VMClientTypeException(VMErrorCode.MONEY_NOT_AUTORIZED, "Money is not authorized by the Vending Machine.");
+
+		public static VMClientTypeException NotEnoughMoneyInVendingMachine() =>
+		new VMClientTypeException(VMErrorCode.NOT_ENOUGH_MONEY_STORED, "Not enough money in the Vending Machine");
 	}
 }
 
