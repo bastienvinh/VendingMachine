@@ -38,7 +38,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Distributor\SoftDrinksMachine.cs" />
+    <Compile Include="Distributor\SoftDrinksMachineSimulation.cs" />
     <Compile Include="Distributor\SodaDrinks.cs" />
   </ItemGroup>
   <ItemGroup>

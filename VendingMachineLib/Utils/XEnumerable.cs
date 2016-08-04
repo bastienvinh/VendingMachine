@@ -31,11 +31,19 @@ namespace Com.Bvinh.Linq
 		/// </summary>
 		/// <param name="source">Source.</param>
 		/// <param name="action">Action.</param>
-		public static void ForEach(this IDictionary source, Action<object, object> action)
+		public static void ForEach<Tkey, TValue>(this IDictionary<Tkey, TValue> source, Action<Tkey, TValue> action)
 		{
-			foreach (KeyValuePair<object, object> p in source)
+			if (action != null)
 			{
-				if (action != null)
+				foreach (KeyValuePair<Tkey, TValue> p in source) action(p.Key, p.Value);
+			}
+		}
+
+		public static void ForEach<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> source, Action<TKey, TValue> action)
+		{
+			if (action != null)
+			{
+				foreach (KeyValuePair<TKey, TValue> p in source)
 					action(p.Key, p.Value);
 			}
 		}

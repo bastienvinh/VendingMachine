@@ -10,7 +10,7 @@ namespace Com.Bvinh.Test.Vending
 	class MainClass
 	{
 
-		private static SoftDrinksMachine SelfSoftDrinkVM;
+		private static SoftDrinksMachineSimulation SelfSoftDrinkVM;
 
 		// This space is used to test directly some function manually.
 
@@ -18,15 +18,23 @@ namespace Com.Bvinh.Test.Vending
 		{
 			Init();
 
+			// Test of our libs
+			SelfSoftDrinkVM.ShowOnConsoleTotalOnMachine();
+			SelfSoftDrinkVM.ClientPutSomeMoney();
+			SelfSoftDrinkVM.ShowOnConsoleTotalOnMachine();
+			SelfSoftDrinkVM.ShowHowManyTheClientSpentForNow();
+			SelfSoftDrinkVM.CancelAndGetBackMoney();
+			SelfSoftDrinkVM.ShowOnConsoleTotalOnMachine();
+
 			// We fill tha machine, the capacity is 30 cokes, 20 sprites, 30 fanta and 20 juices
 
 			Console.WriteLine("\n\nEnd of Program guys ...............................");
 		}
 
-
 		private static void Init()
 		{
-			SelfSoftDrinkVM = new SoftDrinksMachine();
+
+			SelfSoftDrinkVM = new SoftDrinksMachineSimulation();
 
 			// We fill the vending machine
 			Xfb.Range(30).ForEach((i) => { SelfSoftDrinkVM.AddMoreCoke(); });
@@ -35,7 +43,6 @@ namespace Com.Bvinh.Test.Vending
 			Xfb.Range(20).ForEach((i) => { SelfSoftDrinkVM.AddMoreJuice(); });
 
 			SelfSoftDrinkVM.FillStartMoney();
-			SelfSoftDrinkVM.ShowOnConsoleTotalOnMachine();
 		}
 	}
 }

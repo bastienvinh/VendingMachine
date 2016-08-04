@@ -42,6 +42,7 @@ namespace Com.Bvinh.Vendingmachine.Exceptions
 		STORAGE_IS_FULL = 13,
 		MONEY_NOT_AUTORIZED = 14,
 		NOT_ENOUGH_MONEY_STORED = 15,
+		CAN_HAVE_PRODUCT = 16,
 		UNKNOWN_ERROR = 777
 	}
 
@@ -129,6 +130,15 @@ namespace Com.Bvinh.Vendingmachine.Exceptions
 
 		public static VMClientTypeException NotEnoughMoneyInVendingMachine() =>
 		new VMClientTypeException(VMErrorCode.NOT_ENOUGH_MONEY_STORED, "Not enough money in the Vending Machine");
+
+
+		/// <summary>
+		/// That means there are no more product on the Vending Machine
+		/// </summary>
+		/// <returns>No More Product Exception</returns>
+		public static VMClientTypeException NoMoreProducts() =>
+		new VMClientTypeException(VMErrorCode.NO_MORE_PRODUCTS, "No more more products on the Vending Machine");
+
 	}
 }
 

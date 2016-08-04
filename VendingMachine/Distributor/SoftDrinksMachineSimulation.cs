@@ -6,6 +6,7 @@ using Com.Bvinh.Vendingmachine.Exceptions;
 using Functional.Maybe;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Com.Bvinh.Test.Vending
 {
@@ -21,7 +22,7 @@ namespace Com.Bvinh.Test.Vending
 	/// This is just test class, this a not a real class.
 	/// This class will help us to define our exercice
 	/// </summary>
-	public class SoftDrinksMachine
+	public class SoftDrinksMachineSimulation
 	{
 		
 		#region Constants
@@ -47,7 +48,7 @@ namespace Com.Bvinh.Test.Vending
 		#endregion
 
 		#region Constructor
-		public SoftDrinksMachine()
+		public SoftDrinksMachineSimulation()
 		{
 			_machine = new VendingMachine<OldFashionStorageVM>(10);
 			_machine.NumberMaxProductsByStorage = 10;
@@ -94,6 +95,28 @@ namespace Com.Bvinh.Test.Vending
 		{
 			
 		}
+
+		public void CancelAndGetBackMoney()
+		{
+			var lists = _machine.GetMoneyBackFromVM();
+
+			StringBuilder builder = new StringBuilder("{");
+			lists.ForEach((tupleMoney) =>
+			{
+				builder.AppendFormat(" , {0} : {1}", tupleMoney.Item2.Name, tupleMoney.Item1);
+			});
+			builder.Append(" }");
+
+			Console.WriteLine(builder.ToString().Replace("{ ,", "{ "));
+		}
+
+		public void ClientPutSomeMoney()
+		{
+			_machine.ClientPutMoney(Money.P10);
+			_machine.ClientPutMoney(Money.P2);
+		}
+
+		public void ShowHowManyTheClientSpentForNow() => Console.WriteLine("Spent By Client : {0}p", _machine.GetTotalMoneyClient());
 
 		#endregion
 
@@ -159,11 +182,44 @@ namespace Com.Bvinh.Test.Vending
 			{ Money.P10, 5 }
 		});
 
-		public void ShowOnConsoleTotalOnMachine()
+		public void ShowOnConsoleTotalOnMachine() => Console.WriteLine("Total : {0}p", _machine.GetTotalMoneyMachine());
+
+		/// <summary>
+		/// Shows the on console the diffrent product.
+		/// Remark : In real-life, you will have sometimes a mix a product. It's depend how the supplier add his product. The product really nothing and on the storage count.
+		/// It's impossible to predict if he will put this products. It can be like that : https://www.youtube.com/watch?v=dzPuPWJq3I8 or like that : https://www.youtube.com/watch?v=Ts4WcBHbukY
+		/// And the second choice can be really tricky, because they can put anything they want. I saw sometimes, with another product in the middle.
+		/// So don't car about the product, but about the storage.
+		/// </summary>
+		public void ShowOnConsoleTheDiffrentProduct()
 		{
-			Console.WriteLine("Total : {0}p", _machine.GetTotalMoneyMachine());
+			Console.WriteLine("Sprite => {0}" , SODA_SPRITE_RANGE_1);
+			Console.WriteLine("Sprite => {0}", SODA_SPRITE_RANGE_2);
+			Console.WriteLine("Coke => {0}", SODA_COKE_RANGE_1);
+			Console.WriteLine("Coke => {0}", SODA_COKE_RANGE_2);
+			Console.WriteLine("Coke => {0}", SODA_COKE_RANGE_3);
+			Console.WriteLine("Fanta => {0}", SODA_FANTA_RANGE_1);
+			Console.WriteLine("Fanta => {0}", SODA_FANTA_RANGE_2);
+			Console.WriteLine("Fanta => {0}", SODA_FANTA_RANGE_3);
+			Console.WriteLine("Juice => {0}", SODA_JUICE_RANGE_1);
+			Console.WriteLine("Juice => {0}",  SODA_JUICE_RANGE_2);
 		}
-		
+
+		#endregion
+
+
+		#region Client Orders
+
+		/// <summary>
+		/// A client always on this kind of Vending Machine
+		/// Show on console if the person could take a drink or not
+		/// </summary>
+		/// <param name="idStorage">Identifier storage.</param>
+		public void TryGetProduct(string idStorage)
+		{
+
+
+		}
 
 		#endregion
 	}

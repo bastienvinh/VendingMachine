@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-
 namespace Com.Bvinh.Vendingmachine
 {
+	using Com.Bvinh.Vendingmachine.Exceptions;
 
 	// That will help us to understand the definition of the program
 	// Up to you use or not
-	using SeveralMoney = Tuple<int, Money>;
 	using RestOfMoney = List<Tuple<int, Money>>;
 
 
@@ -27,6 +26,13 @@ namespace Com.Bvinh.Vendingmachine
 		double GetCurrentClientMoney();
 		void RemoveAllProducts();
 		List<Money> GetListAuthorizedMoney();
+
+
+		// Products
+		VMErrorCode CanGetProduct(string idStorage);
+		VMErrorCode GetProduct(string idStorage);
+
+		// Money management
 		void SetAuthorizeMoneyList(IEnumerable<Money> moneyList);
 		void AddMoneyAuthorizedMoney(params Money[] moneyArgs);
 		void AddMoneyAuthorizedMoney(Money money);
@@ -43,8 +49,6 @@ namespace Com.Bvinh.Vendingmachine
 		bool AddProduct(string idStorage, Product product = null);
 
 		void ResetMoneyClientHasSpent();
-		void GiveBackClientMoney();
-
 		int GetNumberOfProductFromStorage(string idStorage);
 
 

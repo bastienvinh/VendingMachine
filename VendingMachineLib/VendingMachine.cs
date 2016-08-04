@@ -236,14 +236,32 @@ namespace Com.Bvinh.Vendingmachine
 		{
 			IsThisMoneyAuthorized(m).IfFalseThrow(VMExceptionUtils.MoneyNotAuthorized);
 			// TODO : Verify max money
-			_listMoneysInVM[m]++;
+
+			// we store the money, if the client ask their money back, they will have random moneys.
+			_listMoneysInVM[m] = _listMoneysInVM[m] + 1;
+
+			// We update Client Money
+			_currentMoney += m.Value;
 		}
 
+
+		/// <summary>
+		/// Give back the money to the client and remove the neccessary coins to the Client
+		/// </summary>
+		/// <returns>The money back from vm.</returns>
 		public RestOfMoney GetMoneyBackFromVM()
 		{
+			if (_currentMoney <= 0) return new RestOfMoney();
 
+			var lists = GetListMoneyFromClientMoney();
 
-			throw new NotImplementedException();
+			// We remove the money from our storage
+			lists.ForEach((tuple) => { RemoveMoney(tuple.Item2, tuple.Item1); });
+
+			// We put our current money to zero
+			_currentMoney = 0;
+
+			return lists;
 		}
 
 		public double GetCurrentClientMoney()
@@ -251,22 +269,13 @@ namespace Com.Bvinh.Vendingmachine
 			throw new NotImplementedException();
 		}
 
-		public double GetTotalMoneyClient()
-		{
-			throw new NotImplementedException();
-		}
+		public double GetTotalMoneyClient() => _currentMoney;
 
 		/// <summary>
 		/// Get the total amount of the machine by making a summ of all the moneys stored.
 		/// </summary>
 		/// <returns>Total Money</returns>
 		public double GetTotalMoneyMachine() => _listMoneysInVM.Sum((keyValM) => keyValM.Key.Value * keyValM.Value);
-
-		public void GiveBackClientMoney()
-		{
-			throw new NotImplementedException();
-		}
-
 
 		/// <summary>
 		/// Retrieve the list of accepted money by the Vending Machine
@@ -332,6 +341,38 @@ namespace Com.Bvinh.Vendingmachine
 		/// <returns><c>true</c>, The vending machine accept this money, <c>false</c> The vending machine doesn't accept this money.</returns>
 		/// <param name="money">Money.</param>
 		public bool IsThisMoneyAuthorized(Money money) => _listMoneysInVM.ContainsKey(money);
+
+		/// <summary>
+		/// Retrieve the product 
+		/// </summary>
+		/// <returns>The get product.</returns>
+		/// <param name="idStorage">Identifier storage.</param>
+		public VMErrorCode CanGetProduct(string idStorage)
+		{
+			VMErrorCode code = VMErrorCode.NONE;
+			IsAStorageIdAlreadyExists(idStorage).IfFalseThrow(VMExceptionUtils.StorageDoesntExists);
+			(_storageProducts[idStorage].IsEmpty)
+				.IfTrue(() => { code = VMErrorCode.NO_MORE_PRODUCTS; })
+				.IfFalse(() => { code = VMErrorCode.CAN_HAVE_PRODUCT; });
+
+			return code;
+		}
+
+
+		/// <summary>
+		/// Gets the product.
+		/// </summary>
+		/// <returns>The product.</returns>
+		/// <param name="idStorage">Identifier storage.</param>
+		public VMErrorCode GetProduct(string idStorage)
+		{
+			var result = CanGetProduct(idStorage);
+
+			// We remove a product from the store
+			(result == VMErrorCode.CAN_HAVE_PRODUCT).IfTrue(() => _storageProducts[idStorage].RemoveOneProduct());
+
+			return result;
+		}
 
 		#endregion
 
@@ -479,25 +520,38 @@ namespace Com.Bvinh.Vendingmachine
 		private List<SeveralMoney> GetListMoneyFromClientMoney()
 		{
 			var restMoneyClient = _currentMoney;
-			var orderList = _listMoneysInVM.OrderByDescending(p => p.Key.Value);
+			var orderList = _listMoneysInVM.OrderByDescending(p => p.Key.Value ).Select( p => p );
 
 			var res = new List<SeveralMoney>();
-			_listMoneysInVM.ForEach((money, unitHave) =>
+
+			var unitNeeded = 0;
+			var tmpReduceFromRest = 0d;
+
+			// TODO : imporve the foreach
+			orderList.ForEach<Money, int>( (money, unitHave) =>
 			{
-				var unitNeeded = restMoneyClient / (money as Money).Value;
 
-				//restMoneyClient = restMoneyClient % money
+				if (money.Value <= restMoneyClient)
+				{
+					unitNeeded = Convert.ToInt32(restMoneyClient / money.Value);
+					tmpReduceFromRest = (unitNeeded > unitHave) ? (money.Value * unitHave) : (money.Value * unitNeeded);
 
-				// TODO : finnish this one
+					// We remove the good amount
+					restMoneyClient -= tmpReduceFromRest;
+
+					(unitNeeded > 0).IfTrue( () => res.Add( new SeveralMoney(unitNeeded, money) ) ); 
+				}
 			});
 
-			return null;
+			(restMoneyClient > 0).IfTrueThrow<ApplicationException>("Impossible. You should have the same at least the amount you put");
+
+			return res;
 		}
 
 		/// <summary>
 		/// Clear the money into the Vending Machine.
 		/// </summary>
-		private void ClearMoneyIntheMachine() => _listMoneysInVM.ForEach((key, val) => { _listMoneysInVM[key as Money] = 0; });
+		private void ClearMoneyIntheMachine() => _listMoneysInVM.ForEach<Money, int>((key, val) => { _listMoneysInVM[key] = 0; });
 
 
 		/// <summary>
