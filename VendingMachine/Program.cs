@@ -18,9 +18,6 @@ namespace Com.Bvinh.Test.Vending
 		{
 			Init();
 
-
-			Console.WriteLine("Absolute of 1.5 : {0}", Math.Abs(1.5d));
-
 			//SelfSoftDrinkVM.ShowFullStorage();
 			//// Test of our libs
 			//TestAScenario1();

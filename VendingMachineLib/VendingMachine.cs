@@ -369,10 +369,18 @@ namespace Com.Bvinh.Vendingmachine
 		/// <param name="idStorage">Identifier storage.</param>
 		public VMErrorCode GetProduct(string idStorage)
 		{
+			if (_storageProducts[idStorage].Price > _currentMoney)
+				return VMErrorCode.NOT_ENOUGH_MONEY_FROM_CUSTOMER;
+
 			var result = CanGetProduct(idStorage);
 
 			// We remove a product from the store
-			(result == VMErrorCode.CAN_HAVE_PRODUCT).IfTrue(() => _storageProducts[idStorage].RemoveOneProduct());
+			(result == VMErrorCode.CAN_HAVE_PRODUCT)
+				.IfTrue(() => 
+			{
+				_storageProducts[idStorage].RemoveOneProduct();
+				_currentMoney -= _storageProducts[idStorage].Price;
+			});
 
 			return result;
 		}

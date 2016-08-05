@@ -257,10 +257,31 @@ namespace VendingMachineLibUnitTest
 			_vendingMachineToTest.GetTotalMoneyMachine().Should().Be(185);
 		}
 
-		[Test]
+		[Description("We command all the sprite on the machine.")]
+		[Test, Order(7)]
 		public void TestCommandeAllSprite()
 		{
-			
+			Xfb.Range(10).ForEach(i => {
+				_vendingMachineToTest.GetProduct(SPRITE_ID_STORAGE_1).Should().Be(VMErrorCode.CAN_HAVE_PRODUCT);
+				_vendingMachineToTest.GetProduct(SPRITE_ID_STORAGE_2).Should().Be(VMErrorCode.CAN_HAVE_PRODUCT);
+			});
+
+			_vendingMachineToTest.GetProduct(SPRITE_ID_STORAGE_1).Should().NotBe(VMErrorCode.CAN_HAVE_PRODUCT);
+			_vendingMachineToTest.GetProduct(SPRITE_ID_STORAGE_2).Should().NotBe(VMErrorCode.CAN_HAVE_PRODUCT);
+
+			_vendingMachineToTest.IsThisStorageIsEmpty(SPRITE_ID_STORAGE_1).Should().BeTrue();
+			_vendingMachineToTest.IsThisStorageIsEmpty(SPRITE_ID_STORAGE_2).Should().BeTrue();
+
+		}
+
+		[Description("The client put money again but not enough and try to buy Juice at 24p but had only 15p")]
+		[Test, Order(8)]
+		public void TestOrderSomethingClientCant()
+		{
+			_vendingMachineToTest.ClientPutMoney(Money.P10);
+			_vendingMachineToTest.ClientPutMoney(Money.P5);
+
+			_vendingMachineToTest.GetProduct(JUICE_ID_STORAGE_1).Should().Be(VMErrorCode.NOT_ENOUGH_MONEY_FROM_CUSTOMER);
 		}
 	}
 }
