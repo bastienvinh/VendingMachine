@@ -18,9 +18,9 @@ namespace Com.Bvinh.Test.Vending
 		{
 			Init();
 
-			//SelfSoftDrinkVM.ShowFullStorage();
-			//// Test of our libs
-			//TestAScenario1();
+			SelfSoftDrinkVM.ShowFullStorage();
+			// Test of our libs
+			TestAScenario1();
 
 			// We fill tha machine, the capacity is 30 cokes, 20 sprites, 30 fanta and 20 juices
 
