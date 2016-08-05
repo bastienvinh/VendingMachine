@@ -539,9 +539,9 @@ namespace Com.Bvinh.Vendingmachine
 			orderList.ForEach<Money, int>( (money, unitHave) =>
 			{
 
-				if (money.Value <= restMoneyClient)
+				if (restMoneyClient >= money.Value)
 				{
-					unitNeeded = Convert.ToInt32(restMoneyClient / money.Value);
+					unitNeeded = Convert.ToInt32(Math.Floor(restMoneyClient / money.Value));
 					tmpReduceFromRest = (unitNeeded > unitHave) ? (money.Value * unitHave) : (money.Value * unitNeeded);
 
 					// We remove the good amount
