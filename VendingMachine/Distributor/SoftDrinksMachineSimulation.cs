@@ -37,8 +37,8 @@ namespace Com.Bvinh.Test.Vending
 		public const string SODA_FANTA_RANGE_2 = "A2";
 		public const string SODA_FANTA_RANGE_3 = "A3";
 
-		public const string SODA_JUICE_RANGE_1 = "D1";
-		public const string SODA_JUICE_RANGE_2 = "D2";
+		public const string SODA_JUICE_RANGE_1 = "E1";
+		public const string SODA_JUICE_RANGE_2 = "E2";
 
 		private const int MAX_SODA_BY_RANGE = 10;
 		#endregion
@@ -80,10 +80,9 @@ namespace Com.Bvinh.Test.Vending
 
 		public void AddMoreJuice()
 		{
-			CheckStorage(SodaCanDrinks.JuiceCanDrinks, SODA_JUICE_RANGE_1, SODA_JUICE_RANGE_1);
-			AddMoreOneProduct(SODA_JUICE_RANGE_1, SODA_JUICE_RANGE_1);
+			CheckStorage(SodaCanDrinks.JuiceCanDrinks, SODA_JUICE_RANGE_1, SODA_JUICE_RANGE_2);
+			AddMoreOneProduct(SODA_JUICE_RANGE_1, SODA_JUICE_RANGE_2);
 		}
-
 
 		public void AddAllDrinks()
 		{
@@ -94,7 +93,6 @@ namespace Com.Bvinh.Test.Vending
 		}
 
 		#endregion
-
 
 		#region Money
 
@@ -168,7 +166,8 @@ namespace Com.Bvinh.Test.Vending
 			// Yes you can do the two things in the same time, you need to create all the storage first if neccessary before you can check if there still place.
 			idsStorage.ForEach((id) => { CheckStorageIfNotExists(id, p); });
 
-			var maybeAnyIdFound = idsStorage.FirstMaybe(id => _machine.StillHavePlaceOnAStorage(id));
+			// var maybeAnyIdFound = idsStorage.FirstMaybe(id => _machine.StillHavePlaceOnAStorage(id));
+			var maybeAnyIdFound = idsStorage.FirstOrDefault(id => _machine.StillHavePlaceOnAStorage(id)).ToMaybe();
 			(maybeAnyIdFound.HasValue).IfFalseThrow (VMExceptionUtils.StorageIsFull);
 		}
 

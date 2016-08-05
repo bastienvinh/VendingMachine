@@ -20,7 +20,7 @@ namespace Com.Bvinh.Test.Vending
 
 			SelfSoftDrinkVM.ShowFullStorage();
 			// Test of our libs
-			//TestAScenario1();
+			TestAScenario1();
 
 			// We fill tha machine, the capacity is 30 cokes, 20 sprites, 30 fanta and 20 juices
 
@@ -34,7 +34,6 @@ namespace Com.Bvinh.Test.Vending
 
 			// We fill the vending machine
 			SelfSoftDrinkVM.AddAllDrinks();
-
 			SelfSoftDrinkVM.FillStartMoney();
 		}
 
@@ -53,7 +52,6 @@ namespace Com.Bvinh.Test.Vending
 			Console.WriteLine("After all the sprite were bought");
 			SelfSoftDrinkVM.ShowOnConsoleTotalOnMachine();
 
-			SelfSoftDrinkVM.BuyAllSprite();
 		}
 	}
 }

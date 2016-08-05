@@ -15,7 +15,12 @@ using FluentAssertions;
 
 namespace VendingMachineLibUnitTest
 {
-	[Description("This a scenerio of Vending Machine with OldFashiondStorage.")]
+	/// <summary>
+	/// Scenario : This telling a story about some random guy who wanted to buy a Coke's cans in the Vending Machine but he will try to empty the Vending Machine from Coke Cans
+	/// Scenario about our Vending Machine with a OldFashionnedStorage
+	/// All test are in Order
+	/// </summary>
+	[Description("This is a scenerio of Vending Machine with OldFashiondStorage.")]
 	[TestFixture]
 	public class VendingMachineWithOldFashionedStorageTest
 	{
@@ -43,23 +48,28 @@ namespace VendingMachineLibUnitTest
 		{
 			_storageToTest = new VendingMachine<OldFashionStorageVM>(NUMBER_RESERVE);
 			_storageToTest.NumberMaxProductsByStorage = MAX_CAPACITY_PER_STORAGE;
+			_storageToTest.AddMoneyAuthorizedMoney(new[] { Money.P1, Money.P2, Money.P5, Money.P10 });
+
 		}
 
 
 		[Test, Order(1)]
 		public void TestTheSetup()
 		{
-			Assert.IsNotNull(_storageToTest);
-			Assert.AreEqual(MAX_CAPACITY_PER_STORAGE, _storageToTest.NumberMaxProductsByStorage);
-			Assert.AreEqual(NUMBER_RESERVE, _storageToTest.NummberOfReserve);
+			_storageToTest.Should().NotBeNull();
+			_storageToTest.NumberMaxProductsByStorage.Should().Be(MAX_CAPACITY_PER_STORAGE, "The max storage was set to 10.");
+			_storageToTest.NummberOfReserve.Should().Be(NUMBER_RESERVE, "The numbr of reserve shoud be 10");
 
+			_storageToTest.GetListAuthorizedMoney()
+			              .Should().HaveCount(4, "You must 4 moneys auhtorized")
+			              .And.Contain(new[] { Money.P1, Money.P2, Money.P5, Money.P10 }, "Only p1, p2, p5 and p10 are authorized");
 			// Check the errors that should happens
 			// TODO : do that
 		}
 
 		[Description("Add two new storage for coke")]
 		[Test, Order(2)]
-		public void TestAddStorage()
+		public void TestAddStorageAllProduct()
 		{
 			_storageToTest.CreateNewStorage(COKE_ID_STORAGE_1, SodaCanDrinks.CokeCanDrink.Price);
 			_storageToTest.CreateNewStorage(COKE_ID_STORAGE_2, SodaCanDrinks.CokeCanDrink.Price);
@@ -82,6 +92,8 @@ namespace VendingMachineLibUnitTest
 		[Test, Order(3)]
 		public void TestAddToStorageCokeStorage()
 		{
+			_storageToTest.HasEmptyStorage.Should().BeTrue();
+
 			// We add 5 cokes
 			Xfb.Range(5).ForEach((i) => _storageToTest.AddProduct(COKE_ID_STORAGE_1));
 
@@ -109,12 +121,32 @@ namespace VendingMachineLibUnitTest
 										.Should().ContainKeys(new string[] { COKE_ID_STORAGE_1, COKE_ID_STORAGE_2 }, "Because we have 2 elements")
 										.And.Contain(new KeyValuePair<string, int>(COKE_ID_STORAGE_1, 10), "The first storage should have 10 cans of coke.")
 										.And.Contain(new KeyValuePair<string, int>(COKE_ID_STORAGE_2, 10), "The second storage should have 10 cans of coke too.");
+
+			// We test that fill the storages
+
+			// IsThisStorageIsEmpty  and StillHavePlaceOnAStorage are pretty similar
+			_storageToTest.IsThisStorageIsEmpty(COKE_ID_STORAGE_1).Should().BeFalse();
+			_storageToTest.IsThisStorageIsEmpty(COKE_ID_STORAGE_2).Should().BeFalse();
+
+			_storageToTest.StillHavePlaceOnAStorage(COKE_ID_STORAGE_1).Should().BeFalse();
+			_storageToTest.StillHavePlaceOnAStorage(COKE_ID_STORAGE_2).Should().BeFalse();
 		}
 
 		[Description("We can't add more products on the storage")]
 		[Test, Order(5)]
 		public void TestCanAddMoreStorageOnIt()
 		{
+			throw new NotImplementedException();
+		}
+
+		public void TestClientPutSomeMoney()
+		{
+		}
+
+
+		public void TestClientBuyACoke()
+		{
+			
 		}
 
 	}
