@@ -4,7 +4,7 @@
 
 This a library to use a Vending Machine. You add any product on the vending machine,
 
-This lib was made with Xamarin Studio on a Mac OS environment. I was to lazy to install Visual Studio on my PC. But I believe that project will open on Visual Studio. 
+This lib was made with Xamarin Studio on a Mac OS environment. I was a little lazy to install Visual Studio on my PC. But I believe that project will open on Visual Studio. 
 
 Anyway this is lib project, so we'll not have problems with compatibility with mono.
 
