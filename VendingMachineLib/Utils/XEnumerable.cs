@@ -72,6 +72,18 @@ namespace Com.Bvinh.Linq
 		/// </summary>
 		/// <param name="number">Number.</param>
 		public static IEnumerable<int> Range(int number) => Enumerable.Range(0, number);
+
+
+		/// <summary>
+		/// Creates a new KeyValue<TKey, TValue> pair.
+		/// </summary>
+		/// <returns>The new pair.</returns>
+		/// <param name="key">Key</param>
+		/// <param name="value">Value</param>
+		/// <typeparam name="TKey">Type of the key</typeparam>
+		/// <typeparam name="TValue">Type of the value</typeparam>
+		public static KeyValuePair<TKey, TValue> CreateNewPair<TKey, TValue>(TKey key, TValue value)
+		=> new KeyValuePair<TKey, TValue>(key, value);
 	}
 }
 

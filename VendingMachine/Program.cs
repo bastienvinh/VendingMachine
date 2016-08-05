@@ -18,13 +18,9 @@ namespace Com.Bvinh.Test.Vending
 		{
 			Init();
 
+			SelfSoftDrinkVM.ShowFullStorage();
 			// Test of our libs
-			SelfSoftDrinkVM.ShowOnConsoleTotalOnMachine();
-			SelfSoftDrinkVM.ClientPutSomeMoney();
-			SelfSoftDrinkVM.ShowOnConsoleTotalOnMachine();
-			SelfSoftDrinkVM.ShowHowManyTheClientSpentForNow();
-			SelfSoftDrinkVM.CancelAndGetBackMoney();
-			SelfSoftDrinkVM.ShowOnConsoleTotalOnMachine();
+			//TestAScenario1();
 
 			// We fill tha machine, the capacity is 30 cokes, 20 sprites, 30 fanta and 20 juices
 
@@ -37,12 +33,27 @@ namespace Com.Bvinh.Test.Vending
 			SelfSoftDrinkVM = new SoftDrinksMachineSimulation();
 
 			// We fill the vending machine
-			Xfb.Range(30).ForEach((i) => { SelfSoftDrinkVM.AddMoreCoke(); });
-			Xfb.Range(20).ForEach((i) => { SelfSoftDrinkVM.AddMoreSprite(); });
-			Xfb.Range(30).ForEach((i) => { SelfSoftDrinkVM.AddMoreFanta(); });
-			Xfb.Range(20).ForEach((i) => { SelfSoftDrinkVM.AddMoreJuice(); });
+			SelfSoftDrinkVM.AddAllDrinks();
 
 			SelfSoftDrinkVM.FillStartMoney();
+		}
+
+
+		private static void TestAScenario1()
+		{
+			SelfSoftDrinkVM.ShowOnConsoleTotalOnMachine();
+			SelfSoftDrinkVM.ClientPutSomeMoney();
+			SelfSoftDrinkVM.ShowOnConsoleTotalOnMachine();
+			SelfSoftDrinkVM.ShowHowManyTheClientSpentForNow();
+			SelfSoftDrinkVM.CancelAndGetBackMoney();
+			SelfSoftDrinkVM.ShowOnConsoleTotalOnMachine();
+
+			SelfSoftDrinkVM.BuyAllSprite();
+
+			Console.WriteLine("After all the sprite were bought");
+			SelfSoftDrinkVM.ShowOnConsoleTotalOnMachine();
+
+			SelfSoftDrinkVM.BuyAllSprite();
 		}
 	}
 }

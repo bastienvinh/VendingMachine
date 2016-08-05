@@ -85,6 +85,14 @@ namespace Com.Bvinh.Test.Vending
 		}
 
 
+		public void AddAllDrinks()
+		{
+			Xfb.Range(30).ForEach((i) => { AddMoreCoke(); });
+			Xfb.Range(20).ForEach((i) => { AddMoreSprite(); });
+			Xfb.Range(30).ForEach((i) => { AddMoreFanta(); });
+			Xfb.Range(20).ForEach((i) => { AddMoreJuice(); });
+		}
+
 		#endregion
 
 
@@ -116,7 +124,7 @@ namespace Com.Bvinh.Test.Vending
 			_machine.ClientPutMoney(Money.P2);
 		}
 
-		public void ShowHowManyTheClientSpentForNow() => Console.WriteLine("Spent By Client : {0}p", _machine.GetTotalMoneyClient());
+		public void ShowHowManyTheClientSpentForNow() => Console.WriteLine("Spent By Client : {0}p", _machine.CurrentMoneyClient);
 
 		#endregion
 
@@ -131,7 +139,7 @@ namespace Com.Bvinh.Test.Vending
 		/// <param name="IdsStorage">Identifiers storage.</param>
 		private void AddMoreOneProduct(params string[] IdsStorage)
 		{
-			var anyStorageId = IdsStorage.FirstMaybe(id => _machine.IsThisStorageIsEmpty(id));
+			var anyStorageId = IdsStorage.FirstMaybe(id => _machine.StillHavePlaceOnAStorage(id));
 			(anyStorageId.HasValue).IfTrue(() => _machine.AddProduct(anyStorageId.Value));
 		}
 
@@ -143,7 +151,7 @@ namespace Com.Bvinh.Test.Vending
 		/// <param name="IdsStorage">Identifiers storage.</param>
 		private void RemoveOneProduct(params string[] IdsStorage)
 		{
-			var anyStorageId = IdsStorage.FirstMaybe(id => !_machine.IsThisStorageIsEmpty(id));
+			var anyStorageId = IdsStorage.FirstMaybe(id => !_machine.StillHavePlaceOnAStorage(id));
 			(anyStorageId.HasValue).IfFalse(() => _machine.RemoveProduct(anyStorageId.Value));
 		}
 
@@ -161,7 +169,7 @@ namespace Com.Bvinh.Test.Vending
 			idsStorage.ForEach((id) => { CheckStorageIfNotExists(id, p); });
 
 			var maybeAnyIdFound = idsStorage.FirstMaybe(id => _machine.StillHavePlaceOnAStorage(id));
-			(maybeAnyIdFound.HasValue).IfFalse(() => { throw VMExceptionUtils.StorageIsFull(); });
+			(maybeAnyIdFound.HasValue).IfFalseThrow (VMExceptionUtils.StorageIsFull);
 		}
 
 		/// <summary>
@@ -205,6 +213,12 @@ namespace Com.Bvinh.Test.Vending
 			Console.WriteLine("Juice => {0}",  SODA_JUICE_RANGE_2);
 		}
 
+		public void ShowFullStorage()
+		{
+			_machine.StatesStorage()
+							.ForEach((id, units) => Console.WriteLine("Storage : {0}  Units : {1}", id, units));
+		}
+
 		#endregion
 
 
@@ -217,7 +231,26 @@ namespace Com.Bvinh.Test.Vending
 		/// <param name="idStorage">Identifier storage.</param>
 		public void TryGetProduct(string idStorage)
 		{
+			try
+			{
+				(_machine.GetProduct(idStorage) == VMErrorCode.CAN_HAVE_PRODUCT)
+					.IfTrue(() => Console.WriteLine("Buy a product fron storage {0}", idStorage))
+					.IfFalse(() => Console.WriteLine("Error while try to buy in storage {0}", idStorage));
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex);
+			}
+			
+		}
 
+		public void BuyAllSprite()
+		{
+			Xfb.Range(10).ForEach(x =>
+			{
+				TryGetProduct(SODA_SPRITE_RANGE_1);
+				TryGetProduct(SODA_SPRITE_RANGE_2);
+			});
 
 		}
 

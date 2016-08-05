@@ -133,7 +133,6 @@ namespace VendingMachineLibUnitTest
 
 			// Test when we add
 
-			//var aStorageVM = new OldFashionStorageVM(CLASS_VAR_A_GOOD_CAPACITY_NUMBER);
 			var aStorageVM = StorageFactory.Instance.CreateInstance<OldFashionStorageVM>(CLASS_VAR_A_GOOD_CAPACITY_NUMBER);
 
 			Assert.IsTrue(aStorageVM.CurrentCapacity >= 0);
@@ -162,6 +161,23 @@ namespace VendingMachineLibUnitTest
 			aStorageVM.RemoveOneProduct();
 
 			Assert.AreEqual(aStorageVM.CurrentCapacity, aStorageVM.MaxCapacity);
+		}
+
+		[Description("We verify that our product has the correct number of products")]
+		[Test]
+		public void TestNumberOfProductIsCorrect()
+		{
+			var aStorageVM = StorageFactory.Instance.CreateInstance<OldFashionStorageVM>(CLASS_VAR_A_GOOD_CAPACITY_NUMBER);
+			Assert.IsNotNull(aStorageVM.NumberProducts);
+			Assert.AreEqual(0, aStorageVM.NumberProducts);
+
+			Xfb.Range(5).ForEach((x) => aStorageVM.AddOneProduct());
+
+			Assert.AreEqual(5, aStorageVM.NumberProducts);
+
+			Xfb.Range(3).ForEach((x) => aStorageVM.RemoveOneProduct());
+
+			Assert.AreEqual(2, aStorageVM.NumberProducts);
 		}
 
 

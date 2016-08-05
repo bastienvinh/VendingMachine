@@ -118,7 +118,7 @@ namespace Com.Bvinh.Vendingmachine
 				if (value <= 0)
 					throw VMExceptionUtils.MaxMoneyCantBeNegative();
 
-				if (value < GetCurrentClientMoney())
+				if (value < _currentMoney)
 					throw VMExceptionUtils.MaxMoneyCantBeInfToCurrentMoney();
 
 				_maxMoney = value;
@@ -153,6 +153,16 @@ namespace Com.Bvinh.Vendingmachine
 		public bool HaveProducts
 		{
 			get { return _numberOfProducts > 0; }
+		}
+
+		public double CurrentMoneyClient
+		{
+			get { return _currentMoney; }
+		}
+
+		public bool StillMoneyLeft
+		{
+			get { return _currentMoney > 0; }
 		}
 
 
@@ -263,13 +273,6 @@ namespace Com.Bvinh.Vendingmachine
 
 			return lists;
 		}
-
-		public double GetCurrentClientMoney()
-		{
-			throw new NotImplementedException();
-		}
-
-		public double GetTotalMoneyClient() => _currentMoney;
 
 		/// <summary>
 		/// Get the total amount of the machine by making a summ of all the moneys stored.
@@ -437,7 +440,7 @@ namespace Com.Bvinh.Vendingmachine
 		/// <param name="price">Price.</param>
 		public void SetPriceStorage(string idStorage, double price)
 		{
-			(!IsAStorageIdAlreadyExists(idStorage)).IfTrue(() => { throw VMExceptionUtils.StorageDoesntExists(); });
+			(IsAStorageIdAlreadyExists(idStorage)).IfFalseThrow(VMExceptionUtils.StorageDoesntExists);
 			_storageProducts[idStorage].Price = price;
 		}
 
@@ -448,7 +451,7 @@ namespace Com.Bvinh.Vendingmachine
 		/// <param name="idStorage">Identifier storage.</param>
 		public double GetPriceProductOnThisStorage(string idStorage)
 		{
-			(!IsAStorageIdAlreadyExists(idStorage)).IfTrue(() => { throw VMExceptionUtils.StorageDoesntExists(); });
+			(IsAStorageIdAlreadyExists(idStorage)).IfFalseThrow(VMExceptionUtils.StorageDoesntExists);
 			return _storageProducts[idStorage].Price;
 		}
 
@@ -478,10 +481,9 @@ namespace Com.Bvinh.Vendingmachine
 		/// <param name="id">Identifier.</param>
 		public bool StillHavePlaceOnAStorage(string id)
 		{
-			(!IsAStorageIdAlreadyExists(id)).IfTrue(() => { throw VMExceptionUtils.StorageDoesntExists(); });
+			(IsAStorageIdAlreadyExists(id)).IfFalseThrow(VMExceptionUtils.StorageDoesntExists);
 			return ! _storageProducts[id].IsFull;
 		}
-
 
 		/// <summary>
 		/// Remove a storage
@@ -490,7 +492,7 @@ namespace Com.Bvinh.Vendingmachine
 		/// <param name="idStorage">Identifier storage.</param>
 		public void RemoveStorage(string idStorage)
 		{
-			(!IsAStorageIdAlreadyExists(idStorage)).IfTrue(() => { throw VMExceptionUtils.StorageDoesntExists(); });
+			(IsAStorageIdAlreadyExists(idStorage)).IfFalseThrow(VMExceptionUtils.StorageDoesntExists);
 			_storageProducts.Remove(idStorage);
 		}
 
@@ -501,9 +503,15 @@ namespace Com.Bvinh.Vendingmachine
 		/// <param name="idStorage">Identifier storage.</param>
 		public bool IsThisStorageIsEmpty(string idStorage)
 		{
-			(!IsAStorageIdAlreadyExists(idStorage)).IfTrue(() => { throw VMExceptionUtils.StorageDoesntExists(); });
+			(IsAStorageIdAlreadyExists(idStorage)).IfFalseThrow(VMExceptionUtils.StorageDoesntExists);
 			return _storageProducts[idStorage].IsEmpty;
 		}
+
+		/// <summary>
+		/// Get the current state of the storage right now
+		/// </summary>
+		/// <returns>The storage.</returns>
+		public Dictionary<string, int> StatesStorage() => _storageProducts.ToDictionary(dicEn => dicEn.Key, dicEn => dicEn.Value.NumberProducts);
 
 		#endregion
 

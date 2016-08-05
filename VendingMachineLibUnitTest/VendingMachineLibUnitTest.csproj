@@ -40,6 +40,14 @@
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.5.16\lib\net45\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="FluentAssertions.Core">
+      <HintPath>..\packages\FluentAssertions.4.13.0\lib\net45\FluentAssertions.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions">
+      <HintPath>..\packages\FluentAssertions.4.13.0\lib\net45\FluentAssertions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -59,6 +67,8 @@
     <Compile Include="Stubs\StorageStub.cs" />
     <Compile Include="Utils\XifTest.cs" />
     <Compile Include="Exceptions\AnyException.cs" />
+    <Compile Include="VendingMachineWithOldFashionedStorageTest.cs" />
+    <Compile Include="Products\SodaCanDrinks.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VendingMachineLib\VendingMachineLib.csproj">

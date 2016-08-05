@@ -20,10 +20,10 @@ namespace Com.Bvinh.Vendingmachine
 		int NumberMaxProducts { get; }
 		int NumberOfProductsLeft { get; }
 		bool HaveProducts { get; }
+		double CurrentMoneyClient { get; }
+		bool StillMoneyLeft { get; }
 
-		double GetTotalMoneyClient();
 		double GetTotalMoneyMachine();
-		double GetCurrentClientMoney();
 		void RemoveAllProducts();
 		List<Money> GetListAuthorizedMoney();
 

@@ -1,4 +1,7 @@
 ﻿using System;
+using Com.Bvinh.Linq;
+
+
 namespace Com.Bvinh.Vendingmachine
 {
 
@@ -70,10 +73,7 @@ namespace Com.Bvinh.Vendingmachine
 		/// <value>The current capacity.</value>
 		public int CurrentCapacity
 		{
-			get
-			{
-				return _capacityMax - _numberProductsOnStorage;
-			}
+			get { return _capacityMax - _numberProductsOnStorage; }
 		}
 
 
@@ -83,10 +83,7 @@ namespace Com.Bvinh.Vendingmachine
 		/// <value>The identifier storage.</value>
 		public string IdStorage
 		{
-			get
-			{
-				return _idStorage;
-			}
+			get { return _idStorage; }
 		}
 
 		/// <summary>
@@ -95,10 +92,7 @@ namespace Com.Bvinh.Vendingmachine
 		/// <value>The max capacity.</value>
 		public int MaxCapacity
 		{
-			get
-			{
-				return _capacityMax;
-			}
+			get { return _capacityMax; }
 		}
 
 		/// <summary>
@@ -116,10 +110,7 @@ namespace Com.Bvinh.Vendingmachine
 		/// <value>This is empty or not</value>
 		public bool IsEmpty
 		{
-			get
-			{
-				return _numberProductsOnStorage <= 0; 
-			}
+			get { return _numberProductsOnStorage <= 0; }
 		}
 
 		/// <summary>
@@ -128,10 +119,7 @@ namespace Com.Bvinh.Vendingmachine
 		/// <value>The number products.</value>
 		public int NumberProducts
 		{
-			get
-			{
-				return _numberProductsOnStorage;
-			}
+			get { return _numberProductsOnStorage; }
 		}
 
 		/// <summary>
@@ -140,17 +128,16 @@ namespace Com.Bvinh.Vendingmachine
 		/// <returns>The one product.</returns>
 		public void AddOneProduct()
 		{
-			if (_numberProductsOnStorage >= _capacityMax)
-				throw new StorageException("You can't add more on this storage.");
-
-			++_numberProductsOnStorage;
+			(_numberProductsOnStorage >= _capacityMax).IfTrueThrow<StorageException>("You can't add more on this storage.");
+			_numberProductsOnStorage++;
 		}
 
-		public void AddOneProduct(Product aProduct)
-		{
-			// We don't care about the product here
-			AddOneProduct();
-		}
+		/// <summary>
+		/// Add one more product on the Storage
+		/// Remark, the product is not really significant for this class
+		/// </summary>
+		/// <param name="aProduct">A product.</param>
+		public void AddOneProduct(Product aProduct) => AddOneProduct();
 
 		/// <summary>
 		/// Remove all products in the current capacity / number = 0
@@ -161,17 +148,18 @@ namespace Com.Bvinh.Vendingmachine
 			_numberProductsOnStorage = 0;
 		}
 
-		public void ClearProducts(TypeOfProduct type)
-		{
-			// We still don't care about the product here
-			ClearProducts();
-		}
+		/// <summary>
+		/// We clear a product here
+		/// Remark : we don't really care about the products here
+		/// </summary>
+		/// <param name="type">Type.</param>
+		public void ClearProducts(TypeOfProduct type) => ClearProducts();
 
-		public void RemoveAProduct(Product aProducts)
-		{
-			// We don't really care about the product
-			RemoveOneProduct();
-		}
+		/// <summary>
+		/// We remove a product on the storage
+		/// </summary>
+		/// <param name="aProducts">A products.</param>
+		public void RemoveAProduct(Product aProducts) => RemoveOneProduct();
 
 		/// <summary>
 		/// Remove one product in our storage
@@ -179,8 +167,7 @@ namespace Com.Bvinh.Vendingmachine
 		/// <returns>The one product.</returns>
 		public void RemoveOneProduct()
 		{
-			if (_numberProductsOnStorage > 0)
-				--_numberProductsOnStorage;
+			(_numberProductsOnStorage > 0).IfTrue(() => { _numberProductsOnStorage--; });
 		}
 
 		/// <summary>
@@ -190,14 +177,11 @@ namespace Com.Bvinh.Vendingmachine
 		/// <param name="number">Number.</param>
 		public void SetCapacity(int number)
 		{
-			if (number <= CAPACITY_STORAGE_NUMBERS_IS_NONE)
-				throw new StorageException("Your storage must have a capacity > 0.");
-
+			(number <= CAPACITY_STORAGE_NUMBERS_IS_NONE).IfTrueThrow<StorageException>("Your storage must have a capacity > 0.");
 			_capacityMax = number;
 		}
 
 		#endregion
-
 
 		#region Utils
 

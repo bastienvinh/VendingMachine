@@ -106,30 +106,38 @@ namespace VendingMachineLibUnitTest
 
 		// Bastien : For now I will not create more Unit Test because Moq is limited comapred to TypeMock and JustMock
 		// And on Mac I can have Microsoft Fakes. Too lazy to install Visual Studio on my Windows.
+		/* 
+		[Description("We control that AddProduct can add product, can't add more than he should")]
+		[Test]
+		public void TestAddProduct()
+		{
 
-		//[Description("We control that AddProduct can add product, can't add more than he should")]
-		//[Test]
-		//public void TestAddProduct()
-		//{
+			// Mocks Configuration
+			var mock = new Mock<IFactory>();
+			var mockStorageStub = new Mock<StorageStub>();
 
-		//	// Mocks Configuration
-		//	var mock = new Mock<IFactory>();
-		//	var mockStorageStub = new Mock<StorageStub>();
+			mock.Setup(m => m.CreateInstance<StorageStub>()).Returns(It.IsAny<StorageStub>());
+			mockStorageStub.Setup(m => m.AddOneProduct()).Verifiable();
 
-		//	mock.Setup(m => m.CreateInstance<StorageStub>()).Returns(It.IsAny<StorageStub>());
-		//	mockStorageStub.Setup(m => m.AddOneProduct()).Verifiable();
+			mockStorageStub.SetupGet(m => m.IsFull).Returns(false);
 
-		//	mockStorageStub.SetupGet(m => m.IsFull).Returns(false);
+			var vendingMachine = new VendingMachine<StorageStub>(CLASS_VAR_MAX_STORAGE);
+			vendingMachine.NumberMaxProductsByStorage = 15;
 
-		//	var vendingMachine = new VendingMachine<StorageStub>(CLASS_VAR_MAX_STORAGE);
-		//	vendingMachine.NumberMaxProductsByStorage = 15;
+			vendingMachine.CreateNewStorage(CLASS_VAR_DEFAULT_STORAGE_ID);
+			vendingMachine.AddProduct(CLASS_VAR_DEFAULT_STORAGE_ID);
 
-		//	vendingMachine.CreateNewStorage(CLASS_VAR_DEFAULT_STORAGE_ID);
-		//	vendingMachine.AddProduct(CLASS_VAR_DEFAULT_STORAGE_ID);
+			Assert.AreEqual(vendingMachine.NumberOfProductsLeft, 1);
 
-		//	Assert.AreEqual(vendingMachine.NumberOfProductsLeft, 1);
+		}
+		*/
 
-		//}
+		[Description("Each Storage is able is return that they have still place on their storage when the storages aren't full.")]
+		[Test]
+		public void TestStillHavePlaceOnStorageWhenNotFull()
+		{
+			// Fill this part
+		}
 
 	}
 }
