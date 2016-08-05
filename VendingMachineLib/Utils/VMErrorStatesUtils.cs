@@ -4,6 +4,8 @@ namespace Com.Bvinh.Vendingmachine.Exceptions
 
 
 	// Error Descriptions
+	// Bastien : should be stated
+	// TODO : Do a refactoring on the name and test again
 	// This a definition of all errors you can encounter as a Vendor Machine
 	// 
 	// STOPPED                        				: A vending maching can sometimes fail or be disabled by the vendor

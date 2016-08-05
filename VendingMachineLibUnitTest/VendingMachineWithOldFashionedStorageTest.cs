@@ -282,6 +282,30 @@ namespace VendingMachineLibUnitTest
 			_vendingMachineToTest.ClientPutMoney(Money.P5);
 
 			_vendingMachineToTest.GetProduct(JUICE_ID_STORAGE_1).Should().Be(VMErrorCode.NOT_ENOUGH_MONEY_FROM_CUSTOMER);
+
+			_vendingMachineToTest.CurrentMoneyClient.Should().Be(15);
+			_vendingMachineToTest.GetTotalMoneyMachine().Should().Be(200);
+		}
+
+
+		[Description("The client decide to buy something else, a Coke because it's cheaper.")]
+		[Test, Order(9)]
+		public void TestClientWillGet()
+		{
+
+			_vendingMachineToTest.GetProduct(COKE_ID_STORAGE_1).Should().Be(VMErrorCode.CAN_HAVE_PRODUCT);
+			_vendingMachineToTest.CurrentMoneyClient.Should().Be(2);
+			_vendingMachineToTest.GetTotalMoneyMachine().Should().Be(200);
+
+
+			// we ask the machine to get back the money
+			_vendingMachineToTest.GetMoneyBackFromVM()
+													 .Should().Contain(new Tuple<int, Money>(1, Money.P2))
+													 .And.HaveCount(1);
+
+
+			_vendingMachineToTest.GetTotalMoneyMachine().Should().Be(198);
+
 		}
 	}
 }
